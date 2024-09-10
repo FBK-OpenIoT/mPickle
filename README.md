@@ -1,2 +1,2 @@
-# mPickle
-mPickle - Pickle for Micropython
+# mPickle - Pickle for MicroPython
+This library provides a pure-Python implementation of Pickle for MicroPython. It is based on the original CPython library [available here](https://github.com/python/cpython/blob/main/Lib/pickle.py).
