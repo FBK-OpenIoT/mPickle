@@ -27,7 +27,7 @@ from types import FunctionType #
 from .copyreg import dispatch_table #
 from .copyreg import _extension_registry, _inverted_registry, _extension_cache, _reconstructor #
 from .itertools import islice #
-from .functools import partial #
+from functools import partial #
 import sys # miss audit, intern. skipped
 from sys import maxsize 
 from struct import pack, unpack #
