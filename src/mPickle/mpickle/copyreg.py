@@ -1,8 +1,61 @@
-"""Helper to provide extensibility for pickle.
-
-This is only useful to add pickle support for extension types defined in
-C, not for instances of user-defined classes.
 """
+copyreg - A helper module providing extensibility for pickle.
+Released under the MIT license.
+
+This module is a modified version of the original `copyreg.py` from the Python 
+standard library, licensed under the Python Software Foundation License (PFS). 
+The modifications introduce additional functionality for custom object 
+pickling, particularly for user-defined classes.
+
+Original Authors:
+    Python Software Foundation (PFS License)
+
+Modifications by:
+    Mattia Antonini mattia@mattiantonini.com (MIT License)
+
+Description:
+    copyreg provides functions and utilities to support extensibility for the 
+    pickle module. This allows additional types, particularly extension types 
+    written in C or complex user-defined objects, to be registered for 
+    pickling and unpickling. The module offers a `dispatch_table` for managing 
+    pickling methods for various types and supports custom functions to handle 
+    more intricate serialization needs.
+
+License:
+    The original `copyreg.py` file is licensed under the Python Software 
+    Foundation License. Modifications are licensed under the MIT license 
+    as stated below.
+    
+    MIT License:
+    Permission is hereby granted, free of charge, to any person obtaining a 
+    copy of this software and associated documentation files (the "Software"), 
+    to deal in the Software without restriction, including without limitation 
+    the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+    and/or sell copies of the Software, and to permit persons to whom the 
+    Software is furnished to do so, subject to the following conditions:
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR 
+    OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+    ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+    OTHER DEALINGS IN THE SOFTWARE.
+
+Variables:
+    __all__
+    dispatch_table
+
+Changelog:
+    - Added `pickle_union` to support pickling Python unions and 
+        registered it for int and str types.
+    - Updated `pickle_complex` registration for `complex` objects 
+        with additional details on tuple construction.
+    - Improved `_slotnames` function to cache calculated slot names 
+        and to handle mangled names more effectively, enhancing 
+        serialization of slotted classes.
+"""
+
 
 __all__ = ["pickle", "constructor",
            "add_extension", "remove_extension", "clear_extension_cache"]
