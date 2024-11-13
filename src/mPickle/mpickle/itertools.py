@@ -15,7 +15,11 @@ License
 
 MIT License (MIT)
 
+Copyright (c) 2013, 2014 micropython-lib contributors
 Copyright (c) 2024 Mattia Antonini mattia@mattiantonini.com
+ 
+This file is based on code originally released under the MIT License by
+micropython-lib contributors. Modifications have been made as noted.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
