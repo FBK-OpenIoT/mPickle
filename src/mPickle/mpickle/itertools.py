@@ -34,31 +34,7 @@ def chain(*p):
         yield from i
 
 
-# def islice(p, start, stop=(), step=1):
-#     if stop == ():
-#         stop = start
-#         start = 0
-#     # TODO: optimizing or breaking semantics?
-#     if start >= stop:
-#         return
-#     it = iter(p)
-#     for i in range(start):
-#         next(it)
-
-#     while True:
-#         yield next(it)
-#         for i in range(step - 1):
-#             next(it)
-#         start += step
-#         if start >= stop:
-#             return
-
 def islice(iterable, *args):
-    # islice('ABCDEFG', 2) → A B
-    # islice('ABCDEFG', 2, 4) → C D
-    # islice('ABCDEFG', 2, None) → C D E F G
-    # islice('ABCDEFG', 0, None, 2) → A C E G
-    #
     print(args)
     start = 0
     stop = None
