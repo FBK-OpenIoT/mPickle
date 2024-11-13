@@ -1,3 +1,7 @@
+"""
+Pure-Python implementation of a few codecs functions.
+"""
+
 def encode(input_string, encoding):
     def ascii_encoder(input_string):
         return bytes([ord(char) for char in input_string if ord(char) < 128])
