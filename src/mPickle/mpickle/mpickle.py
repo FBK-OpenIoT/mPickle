@@ -1040,8 +1040,6 @@ class _Pickler:
         dispatch[PickleBuffer] = save_picklebuffer
 
     def save_str(self, obj):
-        if obj.startswith("umlflow.libraries."):
-            obj = obj[len("umlflow.libraries."):] # without beginning library
         if self.bin:
             encoded = obj.encode('utf-8', 'surrogatepass')
             n = len(encoded)
