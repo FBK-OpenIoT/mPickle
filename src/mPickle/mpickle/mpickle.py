@@ -1,26 +1,77 @@
-"""Create portable serialized representations of Python objects.
+"""
+mpickle - A modified version of pickle, the Python object serialization 
+module. Released under the MIT license.
 
-See module copyreg for a mechanism for registering custom picklers.
-See module pickletools source for extensive comments.
+This module is based on the original `pickle.py` from the Python standard 
+library, licensed under the Python Software Foundation License (PFS). 
+Modifications have been made to support additional features and behaviors 
+under the MIT license.
 
-Classes:
+Original Authors:
+    Python Software Foundation (PFS License)
 
-    Pickler
-    Unpickler
+Modifications by:
+    Mattia Antonini mattia@mattiantonini.com (MIT License)
 
-Functions:
+Description:
+    mpickle provides serialization and deserialization functionalities for 
+    Python objects, similar to pickle but with additional adaptations for 
+    improved flexibility and compatibility.
 
-    dump(object, file)
-    dumps(object) -> string
-    load(file) -> object
-    loads(bytes) -> object
+License:
+    The original `pickle.py` file is licensed under the Python Software 
+    Foundation License. Modifications are licensed under the MIT license 
+    as stated below.
+    
+    MIT License:
+    Permission is hereby granted, free of charge, to any person obtaining a 
+    copy of this software and associated documentation files (the "Software"), 
+    to deal in the Software without restriction, including without limitation 
+    the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+    and/or sell copies of the Software, and to permit persons to whom the 
+    Software is furnished to do so, subject to the following conditions:
 
-Misc variables:
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR 
+    OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+    ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+    OTHER DEALINGS IN THE SOFTWARE.
 
+Classes and Functions:
+    - Pickler
+    - Unpickler
+    - dump(object, file)
+    - dumps(object) -> string
+    - load(file) -> object
+    - loads(bytes) -> object
+
+Variables:
     __version__
     format_version
     compatible_formats
 
+Changelog:
+    - Replaced certain imports to allow compatibility with `micropython`.
+    - Introduced `inject_fake_module_func` and `revert_fake_module_func` 
+        to handle module injection for objects that may not exist during
+        data migration from Python to MicroPython and viceversa.
+    - Updated `whichmodule` function to search for modules in custom 
+        `registered_pickle_dict_list`.
+    - Added `register_pickle` to dynamically register custom serialization 
+        functions. This function allows developers to specify custom 
+        serialization (`reduce_func`) and deserialization (`reconstruct_func`)
+        functions for different object types. It supports configurations for 
+        complex scenarios, such as specifying a `setstate_func` for restoring 
+        object state, or remapping module paths in cases where different 
+        environments use varying module hierarchies. 
+    - Modified `_Framer` class to utilize `uBytesIO` as `BytesIO` for 
+        improved performance in resource-constrained environments.
+    - Excluded additional types (e.g., `dict`, `set`) from serialization 
+        in `_Pickler` for compatibility.
+    - Added error handling improvements to `_Pickler` to log serialization 
+        issues.
 """
 
 from types import FunctionType # 
