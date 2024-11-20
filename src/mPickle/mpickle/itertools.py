@@ -1,4 +1,45 @@
-# from micropython-lib
+"""
+This file is based on the itertools module from micropython-lib:
+https://github.com/micropython/micropython-lib/blob/01047889eb1acf115424fee293e03769f6916393/python-stdlib/itertools/itertools.py
+
+All functions except `islice` are identical to the original module. The `islice` function has been adapted with some 
+improvements:
+1. Simplified argument parsing to handle variable-length arguments (start, stop, step) more effectively.
+2. Added input validation to raise a ValueError for invalid inputs, such as negative values for start, stop, and step.
+3. Introduced support for open-ended slices (stop=None) to allow for infinite iterables.
+4. Optimized the iteration process to make the code cleaner and more efficient.
+
+========
+License
+======== 
+
+MIT License (MIT)
+
+Copyright (c) 2013, 2014 micropython-lib contributors
+Copyright (c) 2024 Mattia Antonini mattia@mattiantonini.com
+ 
+This file is based on code originally released under the MIT License by
+micropython-lib contributors. Modifications have been made as noted.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+"""
+
 def count(start=0, step=1):
     while True:
         yield start
