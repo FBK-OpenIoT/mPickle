@@ -8,7 +8,7 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
     - [Step-by-Step instructions](#step-by-step-instructions)
   - [Deploy the code using `ampy`](#deploy-the-code-using-ampy)
     - [Prerequisites](#prerequisites)
-    - [Step-by-Step Deployment](#step-by-step-deployment)
+    - [Step-by-Step instructions](#step-by-step-instructions-1)
 - [Examples](#examples)
 - [License](#license)
 - [Reference](#reference)
@@ -94,7 +94,7 @@ An alternative way to deploy mPickle is to use `ampy`, which allows you to uploa
 3. **Connect Your Board**: Connect the microcontroller board to your computer via USB.
 4. **Identify Board Port**: Determine the serial port used by your board (e.g., `/dev/ttyUSB0` for Linux/macOS or `COM3` for Windows).
 
-#### Step-by-Step Deployment
+#### Step-by-Step instructions
 1. **Navigate to the Project Directory**
    Move to the directory that contains the `src` folder:
    ```sh
@@ -125,7 +125,7 @@ An alternative way to deploy mPickle is to use `ampy`, which allows you to uploa
    ```
 
 ## Examples
-The mPickle project comes with a few examples available [here](/examples).
+The mPickle project comes with a few examples available [here](/src/examples).
 
 ## License
 You can read the license [HERE](/LICENSE).
