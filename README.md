@@ -4,7 +4,7 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
 ## Table of contents <!-- omit in toc -->
 - [Description](#description)
 - [Setup](#setup)
-  - [1. Code Freezed into Firmware](#1-code-freezed-into-firmware)
+  - [Code Freezed into Firmware](#code-freezed-into-firmware)
     - [Step-by-Step instructions](#step-by-step-instructions)
   - [Deploy the code using `ampy`](#deploy-the-code-using-ampy)
     - [Prerequisites](#prerequisites)
@@ -17,11 +17,11 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
 mPickle is a pure-Python library for MicroPython that addresses the challenge of serializing and deserializing data on microcontrollers running MicroPython firmware. By enabling the transfer of Python objects in Pickle’s native binary format, it streamlines communication between MicroPython and standard Python environments. mPickle bridges the gap between IoT devices, edge computing, and the data science world, enabling efficient data transfer and analysis. This capability fosters collaboration among engineers, scientists, and data analysts, enabling seamless work on real-time data insights, model deployment, and data-driven solutions across diverse computing environments—all within a unified data language.
 
 ## Setup
-TTo get started with mPickle, you have two options:
+To get started with mPickle, you have two options:
 1. **Freeze/embed the mPickle code into the firmware installation.**
 2. **Deploy the code directly to your board using `ampy`.**
 
-### 1. Code Freezed into Firmware
+### Code Freezed into Firmware
 
 The mPickle repository includes a compilation tool called `mpy-helper`, which helps build custom MicroPython firmware that includes the mPickle module. This tool is available in the path `firmware/dev-scripts/generic/` and it helps in building the MicroPython firmware for many different targets like ESP32, Unix, ARM, etc.
 
