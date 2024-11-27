@@ -1,8 +1,19 @@
-# About the examples
+# Examples <!-- omit in toc -->
 
-These examples are meant to showcase the usage of pickle and mpickle on cpython and micropython respectively. As such, each `example.py` file can be run on either implementation
+This folder contains examples demonstrating the usage and functionality of mPickle, showcasing how to serialize and deserialize data between Python and MicroPython environments while addressing module mapping and compatibility challenges.
 
-## How to run
+- [Basic Data Types](#basic-data-types)
+- [Custom classes](#custom-classes)
+- [NumPy NDArray](#numpy-ndarray)
+
+## Basic Data Types
+This example demonstrates the process of serializing and deserializing various Python data types using the mpickle library. The objective is to ensure compatibility across different Python environments, such as MicroPython and standard Python, while showcasing how diverse data structures—including basic data types, collections, and nested structures—can be efficiently serialized to a byte stream and reconstructed.
+
+## Custom classes
+
+## NumPy NDArray
+
+## How to run <!-- omit in toc -->
 
 Along with this file, there is a number of folders representing the python types and classes that will be pickled/unpickled in the respective example; in each folder, a file named `example.py` can be found. While in the desired folder, running
 
