@@ -4,7 +4,7 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
 ## Table of contents <!-- omit in toc -->
 - [Description](#description)
 - [Setup](#setup)
-  - [Deploy the code using `ampy`](#deploy-the-code-using-ampy)
+  - [Deploy the code using `mpr` (`mpremote`)](#deploy-the-code-using-mpr-mpremote)
     - [Prerequisites](#prerequisites)
     - [Step-by-Step instructions](#step-by-step-instructions)
   - [Code Freezed into Firmware](#code-freezed-into-firmware)
@@ -18,18 +18,18 @@ mPickle is a pure-Python library for MicroPython that addresses the challenge of
 
 ## Setup
 To get started with mPickle, you have two options:
-1. **Deploy the code directly to your board using `ampy`.**
+1. **Deploy the code directly to your board using `mpremote`.**
 2. **Freeze/embed the mPickle code into the firmware installation.**
 
 
-### Deploy the code using `ampy`
-An alternative way to deploy mPickle is to use `ampy`, which allows you to upload the mPickle code directly to your board without modifying the firmware.
+### Deploy the code using `mpr` (`mpremote`)
+An alternative way to deploy mPickle is to use `mpr`, which allows you to upload the mPickle code directly to your board without modifying the firmware.
 
 #### Prerequisites
 1. **Install Python**: Make sure Python> 3.9 is installed on your system.
-2. **Install ampy**: Install `ampy` using `pip`:
+2. **Install mpremote**: Install `mpr` and `mpremote` using `pip`:
    ```sh
-   pip install adafruit-ampy
+   pip install mpr mpremote
    ```
 3. **Connect Your Board**: Connect the microcontroller board to your computer via USB.
 4. **Identify Board Port**: Determine the serial port used by your board (e.g., `/dev/ttyUSB0` for Linux/macOS or `COM3` for Windows).
@@ -44,25 +44,40 @@ An alternative way to deploy mPickle is to use `ampy`, which allows you to uploa
 2. **Upload Files Using `ampy`**
    Use the following command to upload the `src/mPickle/mpickle` folder to the board. This will create a directory named mpickle on the board:
    ```sh
-   ampy --port <PORT> put src/mPickle/mpickle mpickle
+   mpr -d <PORT> put -r src/mPickle/mpickle /
    ```
 
    - Replace `<PORT>` with the appropriate port for your board (e.g., `/dev/ttyUSB0` or `COM3`).
    - `src/mPickle/mpickle` is the path to the code folder.
-   - `mpickle` is the name of the destination directory on the board (the name of the module).
+   - `/` is the name of the destination on the board (the root). It will create the mpickle directory.
 
-3. **Confirm Upload**
+3. Install dependencies
+   `mPickle` depends on `types` and `functools`, thus install them with the command:
+   ```sh
+   mpr -d <PORT> mip install types functools
+   ```
+
+4. **Confirm Upload**
    Once uploaded, you can list the files on your board using:
    ```sh
-   ampy --port <PORT> ls
+   mpr -d <PORT> ls
    ```
    You should see the `mpickle` folder in the output.
 
-6. **Verify the deployment**
-   If the deployment succeeds, mPickle will be available as module. You can confirm this by connecting to the MicroPython REPL and running:
+5. **Verify the deployment**
+   If the deployment succeeds, mPickle will be available as module. You can confirm this by connecting to the MicroPython REPL with the command
+   ```sh
+   mpr -d <PORT> repl
+   ```
+   and running:
    ```python
    import mpickle
    ```
+   or running
+   ```sh
+   mpr exec 'import mpickle'
+   ```
+   If the command does not return anything, the verification is successful.
 
 ### Code Freezed into Firmware
 
@@ -113,6 +128,10 @@ To embed mPickle into the firmware, follow these steps:
    If the compilation succeeds, mPickle will be embedded in the new firmware. You can confirm this by connecting to the MicroPython REPL and running:
    ```python
    import mpickle
+   ```
+   Or, if you have installed `mpr`, you can run
+   ```sh
+   mpr exec 'import mpickle'
    ```
 
 **Removing mPickle from Firmware**
