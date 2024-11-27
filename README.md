@@ -1,5 +1,5 @@
 # mPickle - Pickle for MicroPython <!-- omit in toc -->
-The **mPickle (microPickle)** library offers a pure-Python implementation of Pickle, compatible with Protocol 5 (except for ), specifically design and adapted for MicroPython. It is adapted by the original CPython library, which can be found [here](https://github.com/python/cpython/blob/main/Lib/pickle.py).
+The **mPickle (microPickle)** library offers a pure-Python implementation of Pickle, compatible with Protocol 5 (except for PickleBuffer), specifically design and adapted for MicroPython. It is adapted by the original CPython library, which can be found [here](https://github.com/python/cpython/blob/main/Lib/pickle.py).
 
 ## Table of contents <!-- omit in toc -->
 - [Description](#description)
@@ -42,9 +42,9 @@ An alternative way to deploy mPickle is to use `ampy`, which allows you to uploa
    ```
 
 2. **Upload Files Using `ampy`**
-   Use the following command to upload the src/mPickle/mpickle folder to the board. This will create a directory named mpickle on the board:
+   Use the following command to upload the `src/mPickle/mpickle` folder to the board. This will create a directory named mpickle on the board:
    ```sh
-   ampy --port <PORT> put src/mPickle/ mPickle
+   ampy --port <PORT> put src/mPickle/mpickle mpickle
    ```
 
    - Replace `<PORT>` with the appropriate port for your board (e.g., `/dev/ttyUSB0` or `COM3`).
