@@ -514,18 +514,24 @@ def whichmodule(obj, name):
     dotted_path = name.split('.')
     module_name = getattr(obj, '__module__', None)
     module_name = _handle_none_module_name(module_name, obj)
-    print("A", module_name)
+    print("whichmodule - A", module_name, name)
     if module_name is None and '<locals>' not in dotted_path:
         # Protect the iteration by using a list copy of sys.modules against dynamic
         # modules that trigger imports of other modules upon calls to getattr.
-        print("b", module_name)
+        print("whichmodule - B", module_name, name)
         for module_name, module in sys.modules.copy().items():
             if (module_name == '__main__'
                 or module_name == '__mp_main__'  # bpo-42406
                 or module is None):
                 continue
             try:
+                print("whichmodule - D", module_name, name)
                 if _getattribute(module, dotted_path) is obj:
+                    print("whichmodule - E", module_name, name)
+                    # workaround for mpickle._reconstructor, remove mpickle.
+                    if name is '_reconstructor' and module_name.startswith('mpickle.'):
+                        module_name = module_name[8:] 
+
                     return module_name
             except AttributeError:
                 pass
@@ -537,11 +543,12 @@ def whichmodule(obj, name):
         # Otherwise use __main__
         module_name = '__main__'
     elif module_name == 'builtins': #workarund for builtins type
-        print("C", module_name)
+        print("whichmodule - C", module_name)
         return module_name
     elif module_name is None:
         module_name = '__main__'
     #
+    print(f"whichmodule - WM: {module_name} n: {name}")
     try:
         __import__(module_name)
         if module_name != "__main__": #workaround for __main__
@@ -551,7 +558,7 @@ def whichmodule(obj, name):
         if _getattribute(module, dotted_path) is obj:
             return module_name
     except (ImportError, KeyError, AttributeError):
-        print(f"MN: {module_name} N: {name}")
+        print(f"whichmodule - MN: {module_name} N: {name}")
         raise PicklingError(
             "Can't pickle %r: it's not found as %s.%s" %
             (obj, module_name, name)) from None
@@ -793,15 +800,16 @@ class _Pickler:
                         rv = reduce()
                     # Workaround to pickle classes even if they do not have __reduce__ (cpython)
                     elif not(isinstance(obj, exclude_types)):
-                        print(type(obj), obj)
+                        print('save ', type(obj), obj)
                         pickle_dict = find_dict_by_key_value(registered_pickle_dict_list, 'obj_type', type(obj))
                         if pickle_dict:
                             rv = pickle_dict["reduce_func"](obj)
                         else:
-                            print(obj.__dict__)
+                            print('save ', obj.__dict__)
                             rv = (_reconstructor, 
                                 (obj.__class__, obj.__class__.__bases__[0], None),
                                 obj.__dict__)
+                            print('save', type(rv[0]), rv[0].__class__)
                     else:
                         raise PicklingError("Can't pickle %r object: %r" %
                                             (t.__name__, obj))
@@ -1867,7 +1875,7 @@ class _Unpickler:
         stack = self.stack
         args = stack.pop()
         func = stack[-1]
-        print(func, args)
+        print('Load Reduce ', func, args)
         stack[-1] = func(*args)
     dispatch[REDUCE[0]] = load_reduce
 
