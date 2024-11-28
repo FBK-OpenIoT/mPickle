@@ -76,7 +76,6 @@ def chain(*p):
 
 
 def islice(iterable, *args):
-    print(args)
     start = 0
     stop = None
     step = 1
