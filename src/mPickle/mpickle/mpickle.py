@@ -241,6 +241,18 @@ BYTEARRAY8       = b'\x96'  # push bytearray
 NEXT_BUFFER      = b'\x97'  # push next out-of-band buffer
 READONLY_BUFFER  = b'\x98'  # make top of stack readonly
 
+# Flag to control whether debugging messages (using print) should be printed
+DEBUG_MODE = False
+import builtins
+
+def print(*args, **kwargs):
+    if DEBUG_MODE:
+        # If debugging is enabled, call the built-in print with all parameters
+        builtins.print(*args, **kwargs)
+    else:
+        # Otherwise, do nothing
+        pass
+
 registered_pickle_dict_list = []
 def find_dict_by_key_value(dict_list, query_key, query_value):
     """
