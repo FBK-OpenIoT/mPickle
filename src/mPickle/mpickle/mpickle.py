@@ -805,7 +805,7 @@ class _Pickler:
                         if pickle_dict:
                             rv = pickle_dict["reduce_func"](obj)
                         else:
-                            print('save ', obj.__dict__)
+                            print('save ', obj, obj.__dict__)
                             rv = (_reconstructor, 
                                 (obj.__class__, obj.__class__.__bases__[0], None),
                                 obj.__dict__)
@@ -1852,8 +1852,14 @@ class _Unpickler:
             # module, name = pickling_dict["obj_full_name"].rsplit('.', 1)
         
         print("B - FindClass", module, name)
+        try:
+            __import__(module)
+        except ImportError:
+            # Workaround for internal mpickle modules not resolved
+            module = "mpickle."+module
+            print("C - FindClass", module, name)
+            __import__(module)
 
-        __import__(module)
         if self.proto >= 4:
             if module in sys.modules:
                 module = sys.modules[module]
