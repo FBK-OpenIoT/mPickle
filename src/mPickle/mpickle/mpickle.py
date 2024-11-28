@@ -59,6 +59,8 @@ Changelog:
         data migration from Python to MicroPython and viceversa.
     - Updated `whichmodule` function to search for modules in custom 
         `registered_pickle_dict_list`.
+    - Updates `whichmodule` and `find_class` functions to handle serialization
+        and deserializaition of `_reconstructor` functions.
     - Added `register_pickle` to dynamically register custom serialization 
         functions. This function allows developers to specify custom 
         serialization (`reduce_func`) and deserialization (`reconstruct_func`)
