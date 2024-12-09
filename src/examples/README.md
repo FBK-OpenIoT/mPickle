@@ -39,7 +39,7 @@ To run this example it is necessary to properly build MicroPython including both
    Use the `mpy-helper` tool to compile the firmware, specifying your target. For example, to compile for UNIX:
 
    ```sh
-   ./mpy-helper build UNIX ULAB_MAX_DIMS=4 ULAB_HAS_DTYPE_OBJECT=1
+   ./mpy-helper build UNIX ULAB_MAX_DIMS=4 ULAB_HAS_DTYPE_OBJECT=1 MICROPY_FLOAT_IMPL=1
    ```
 
    The `UNIX` target is just an example; replace it with your desired target board (e.g., `ESP32_GENERIC_S3`, `ESP32_GENERIC`, `RPI_PICO_W`, `ARDUINO_NICLA_VISION`, `STM32L496GDISC`, etc.).
@@ -47,6 +47,7 @@ To run this example it is necessary to properly build MicroPython including both
    These flags are important:
    - **`ULAB_MAX_DIMS=4`**: Ensures that `ulab` can handle up to 4-dimensional arrays.
    - **`ULAB_HAS_DTYPE_OBJECT=1`**: Enables support for various data types within `ulab`.  
+   - **`MICROPY_FLOAT_IMPL=1`**: Force `float32` support on UNIX, otherwsie it uses system float support (*e.g.,* `flaot64`). This flag can be removed for non-UNIX boards.
 
    After compiling, you'll have a MicroPython interpreter or firmware image that includes `ulab`.
 

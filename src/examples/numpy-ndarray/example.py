@@ -35,10 +35,14 @@ def serialize_and_deserialize(obj):
 def main():
     test_array = [int(x) for x in range(64)]
     test_objects = [
-        np.array(test_array, dtype=dtype('int16')),                     # 1D array with 16 elements
-        np.array(test_array, dtype=dtype('int16')).reshape((8,8)),      # 2D array (4x4) with 16 elements
-        np.array(test_array, dtype=dtype('int16')).reshape((4,4,4)),    # 3D array (4x2x2) with 16 elements
-        np.array(test_array, dtype=dtype('int16')).reshape((4,2,2,4)),  # 4D array (2x2x2x2) with 16 elements
+        np.array(test_array, dtype=dtype('int16')),                     # 1D array with 64 int16 numbers
+        np.array(test_array, dtype=dtype('int16')).reshape((8,8)),      # 2D array (4x4) with 64 int16 numbers
+        np.array(test_array, dtype=dtype('int16')).reshape((4,4,4)),    # 3D array (4x2x2) with 64 int16 numbers
+        np.array(test_array, dtype=dtype('int16')).reshape((4,2,2,4)),  # 4D array (2x2x2x2) with 64 int16 numbers
+        np.array(test_array, dtype=dtype('float32')),                     # 1D array with 64 float32 numbers
+        np.array(test_array, dtype=dtype('float32')).reshape((8,8)),      # 2D array (4x4) with 64 float32 numbers
+        np.array(test_array, dtype=dtype('float32')).reshape((4,4,4)),    # 3D array (4x2x2) with 64 float32 numbers
+        np.array(test_array, dtype=dtype('float32')).reshape((4,2,2,4)),  # 4D array (2x2x2x2) with 64 float32 numbers
     ]
     
     # Serialize individual test objects
