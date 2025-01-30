@@ -30,6 +30,24 @@ try:
 except ImportError: #CPython
     import pickle
 
+test_objects = [
+        'foo',                 # String
+        12,                    # Integer
+        1.2,                   # Float
+        1 + 2j,                # Complex number
+        True,                  # Boolean
+        bytes(1),              # Bytes
+        bytearray('foo', 'utf-8'), # Bytearray
+        [1, 2, 3],             # List
+        (1, 2, 3),             # Tuple
+        {1, 2, 'foo', 'bar'},  # Set
+        {'foo': 'bar'},        # Dictionary
+        None,                  # NoneType
+        frozenset(['a', 'b', 'c']), # Immutable Set
+        [[1, 2], {'foo': (3, 4)}, {5: [6, 7]}],  # Nested array
+        ({'key1': 'value1'}, [1, 2, {3, 4}])  # Nested dict in tuple
+    ]
+
 def serialize_and_deserialize(obj):
     """
     This function attempts to serialize and deserialize the given object using the pickle module.
@@ -49,24 +67,6 @@ def serialize_and_deserialize(obj):
         print(f"Error with {obj}: {e}")
 
 def main():
-    test_objects = [
-        'foo',                 # String
-        12,                    # Integer
-        1.2,                   # Float
-        1 + 2j,                # Complex number
-        True,                  # Boolean
-        bytes(1),              # Bytes
-        bytearray('foo', 'utf-8'), # Bytearray
-        [1, 2, 3],             # List
-        (1, 2, 3),             # Tuple
-        {1, 2, 'foo', 'bar'},  # Set
-        {'foo': 'bar'},        # Dictionary
-        None,                  # NoneType
-        frozenset(['a', 'b', 'c']), # Immutable Set
-        [[1, 2], {'foo': (3, 4)}, {5: [6, 7]}],  # Nested array
-        ({'key1': 'value1'}, [1, 2, {3, 4}])  # Nested dict in tuple
-    ]
-
     # Serialize individual test objects
     for obj in test_objects:
         print(f"Testing Object: {obj} (Type: {type(obj)})")

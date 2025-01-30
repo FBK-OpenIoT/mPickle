@@ -8,6 +8,13 @@ except ImportError: #CPython
 
 from custom_class import CustomClass, NestedClass
 
+test_objects = [
+        CustomClass,
+        CustomClass(arg_f=2+3j),
+        NestedClass,
+        NestedClass()
+    ]
+
 def serialize_and_deserialize(obj):
     """
     This function attempts to serialize and deserialize the given object using the pickle module.
@@ -27,14 +34,7 @@ def serialize_and_deserialize(obj):
         print(f"Error with {obj}: {e}")
 
 def main():
-
-    test_objects = [
-        CustomClass,
-        CustomClass(arg_f=2+3j),
-        NestedClass,
-        NestedClass()
-    ]
-    
+   
     # Serialize individual test objects
     for obj in test_objects:
         print(f"Testing Object: {obj} (Type: {type(obj)})")
