@@ -545,9 +545,14 @@ def whichmodule(obj, name):
                     # workaround for mpickle._reconstructor, remove mpickle.
                     if name is '_reconstructor' and module_name.startswith('mpickle.'):
                         module_name = module_name[8:] 
+                    # workaround, if the problem persist for mpickle._reconstructor, replace mpickleXXX with copyreg
+                    if module_name.startswith('mpickle'):
+                        module_name = "copyreg" 
+                    print("whichmodule - F", module_name, name)
 
                     return module_name
             except AttributeError:
+                print("whichmodule - AttrError - G", module_name, name)
                 pass
         # If a modules has not been found, try with registered
         pickle_dict = find_dict_by_key_value(registered_pickle_dict_list, 'obj_type', obj)
