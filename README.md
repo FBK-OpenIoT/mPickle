@@ -7,8 +7,7 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
   - [Deploy the code using `mpr` (`mpremote`)](#deploy-the-code-using-mpr-mpremote)
     - [Prerequisites](#prerequisites)
     - [Step-by-Step instructions](#step-by-step-instructions)
-  - [Code Freezed into Firmware](#code-freezed-into-firmware)
-    - [Step-by-Step instructions](#step-by-step-instructions-1)
+  - [Build a firmware with frozen module](#build-a-firmware-with-frozen-module)
 - [Examples](#examples)
 - [License](#license)
 - [Reference](#reference)
@@ -75,75 +74,24 @@ An alternative way to deploy mPickle is to use `mpr`, which allows you to upload
    ```
    or running
    ```sh
-   mpr exec 'import mpickle'
+   mpr exec 'import mpickle; print(mpickle.__version__)'
    ```
-   If the command does not return anything, the verification is successful.
+   and it should print the version of the `mPickle` library.
 
-### Code Freezed into Firmware
+### Build a firmware with frozen module
+This repository includes a set of compilation scripts located in `firmware/dev-scripts`, to build a custom MicroPython firmware with mPickle as a frozen module, along with (`ulab`)[https://github.com/v923z/micropython-ulab]. 
+These scripts support firmware compilation for ESP32 (and its variants) as well as UNIX.
+For detailed compilation steps, refer to (this guide)[/firmware/dev-scripts/README.md].
 
-The mPickle repository includes a compilation tool called `mpy-helper`, which helps build custom MicroPython firmware that includes the mPickle module. This tool is available in the path `firmware/dev-scripts/generic/` and it helps in building the MicroPython firmware for many different targets like ESP32, Unix, ARM, etc.
-
-Using the `mpy-helper` tool, you can build the MicroPython firmware for many different targets, such as ESP32, Unix, ARM, etc.
-
-To embed mPickle into the firmware, follow these steps:
-
-#### Step-by-Step instructions
-
-1. **Move to the Compilation Tool Directory**
-
-   Change your working directory to the location of `mpy-helper`:
-   ```sh
-   cd firmware/dev-scripts/generic
-   ```
-2. **Install Requirements (First-Time Setup Only)**
-
-   If this is your first time using mpy-helper, you will need to follow the installation procedure outlined in the [README](firmware/dev-scripts/generic/README.md#installation) file.
-
-3. **Add mPickle to Modules for Firmware**
-
-   Copy the mPickle code into the `modules/user_mp_modules/include/` directory:
-   ```sh
-   cp -r ../../../src/mPickle ./modules/user_mp_modules/include/
-   ```
-4. **Compile the Firmware**
-
-   Use the `mpy-helper` tool to compile the firmware, specifying your target. For example, to compile for ESP32-S3:
-
-   ```sh
-   ./mpy-helper build ESP32_GENERIC_S3
-   ```
-
-   The `ESP32_GENERIC_S3` target is just an example; replace it with your desired target board (e.g., `UNIX`, `ESP32_GENERIC`, `RPI_PICO_W`, `ARDUINO_NICLA_VISION`, `STM32L496GDISC`, etc.).
-
-5. **Flash the Firmware**
-   Use the `mpy-helper` tool to flash the firmware, specifying your target. For example, to flash a ESP32-S3 on port `<PORT>`:
-
-   ```sh
-   ./mpy-helper flash ESP32_GENERIC_S3 PORT=<PORT>
-   ```
-
-   The `ESP32_GENERIC_S3` target is just an example; replace it with your desired target board (e.g., `UNIX`, `ESP32_GENERIC`, `RPI_PICO_W`, `ARDUINO_NICLA_VISION`, `STM32L496GDISC`, etc.) and the right `<PORT>`.
-
-6. **Verify Installation**
-   If the compilation succeeds, mPickle will be embedded in the new firmware. You can confirm this by connecting to the MicroPython REPL and running:
-   ```python
-   import mpickle
-   ```
-   Or, if you have installed `mpr`, you can run
-   ```sh
-   mpr exec 'import mpickle'
-   ```
-
-**Removing mPickle from Firmware**
-If you decide to remove mPickle from the firmware in the future, run the following command and then compile again:
-```sh
-./mpy-helper ignore mPickle
+Once the MicroPython has been compile, and eventually flashed, it is possible to check if everything is working by connecting to the MicroPython REPL and running:
+```python
+import mpickle
 ```
-If you want to re-include mPickle into the firmware, run the following command and then compile again:
+Or, if you have installed `mpr`, you can run
 ```sh
-./mpy-helper include mPickle
+mpr exec 'import mpickle; print(mpickle.__version__)'
 ```
-
+and it should print the version of the `mPickle` library.
 
 ## Examples
 The mPickle project comes with a few examples available [here](/src/examples).
