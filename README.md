@@ -7,8 +7,8 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
   - [Importing the Module](#importing-the-module)
   - [Serializing (Dumping) Data](#serializing-dumping-data)
   - [Deserializing (Loading) Data](#deserializing-loading-data)
-  - [**Extending `mpickle` with Non-Standard Objects**](#extending-mpickle-with-non-standard-objects)
-  - [**Injecting Fake Modules and Functions with `inject_fake_module_func`**](#injecting-fake-modules-and-functions-with-inject_fake_module_func)
+  - [Extending `mpickle` with Non-Standard Objects](#extending-mpickle-with-non-standard-objects)
+  - [Injecting Fake Modules and Functions with `inject_fake_module_func`](#injecting-fake-modules-and-functions-with-inject_fake_module_func)
 - [Setup](#setup)
   - [Deploy the code using `mpr` (`mpremote`)](#deploy-the-code-using-mpr-mpremote)
     - [Prerequisites](#prerequisites)
@@ -74,7 +74,7 @@ deserialized_data = mpickle.load(serialized_data)
 print(deserialized_data)  # Output: {'name': 'Alice', 'age': 25, 'scores': [90, 85, 88]}
 ```
 
-### **Extending `mpickle` with Non-Standard Objects**  
+### Extending `mpickle` with Non-Standard Objects
 
 MicroPython imposes limitations on module and object management, affecting the behavior of pickling libraries. Some objects require explicit serialization and reconstruction definitions. The `register_pickle` function in `mpickle` enables custom mappings to handle such cases.
 
@@ -165,7 +165,7 @@ mpickle.register_pickle(
 
 The complete example on NumPy is available in `examples/numpy-ndarray`.
 
-### **Injecting Fake Modules and Functions with `inject_fake_module_func`**  
+### Injecting Fake Modules and Functions with `inject_fake_module_func`
 
 MicroPython does not always include all standard Python modules, which can cause issues during deserialization when a module or function is missing. To handle this, `mpickle` provides the `inject_fake_module_func` function.  
 
