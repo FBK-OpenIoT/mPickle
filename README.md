@@ -163,7 +163,7 @@ mpickle.register_pickle(
 )
 ```
 
-The complete example on NumPy is available in `examples/numpy-ndarray`.
+The complete example on NumPy is available in `src/examples/numpy-ndarray`.
 
 ### Injecting Fake Modules and Functions with `inject_fake_module_func`
 
@@ -206,7 +206,7 @@ def reduce_ndarray(x):
         (1, x.shape, x.dtype, False, bytes(x.tobytes()))  # Data needed to reconstruct the ndarray
     )
 ```
-The complete example on NumPy is available in `examples/numpy-ndarray`.
+The complete example on NumPy is available in `src/examples/numpy-ndarray`.
 
 ## Setup
 To get started with mPickle, you have two options:
