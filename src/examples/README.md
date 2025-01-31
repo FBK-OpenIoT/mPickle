@@ -35,7 +35,7 @@ These examples can also be executed on microcontrollers by uploading the code to
 ## Running Tests
 The provided examples also serve as tests for the `mpickle` library to ensure its compatibility with the native CPython `pickle` module. To verify this, you first need to compile MicroPython for UNIX and then execute:
 ```sh
-./test.sh
+./run_test.sh
 ```
 This script runs three different tests on each example:
 1. **Cross-compatibility with CPython:**  
