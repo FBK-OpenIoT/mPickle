@@ -7,14 +7,14 @@ run_test() {
     echo -e "\e[0;36mTesting \e[1;36m$1\e[0m"
 
     # CPython -> MicroPython
-    OUT1=$($CPYTHON pickle_test.py --example_name "$1" --dump)
+    OUT1=$($CPYTHON pickle_tests.py --example_name "$1" --dump)
     STATUS1=$?
     if [ "$STATUS1" -ne 0 ]; then
         echo -e "\e[0;31mFAIL: CPython dump failed for $1\e[0m"
         return
     fi
 
-    OUT2=$($MPYTHON pickle_test.py --example_name "$1" --load)
+    OUT2=$($MPYTHON pickle_tests.py --example_name "$1" --load)
     STATUS2=${PIPESTATUS[0]}  # Capture exit status of the first command in the pipe
     OUT2_LAST_LINE=$(echo "$OUT2" | tail -n 1)  # Extract last line separately
 
@@ -23,17 +23,18 @@ run_test() {
         return
     fi
 
-    echo "Output (CPython -> MicroPython): $OUT2_LAST_LINE"
+    rm -f dump.pkl
+    echo "Test Dump: CPython -> Load: MicroPython): $OUT2_LAST_LINE"
 
     # MicroPython -> CPython
-    OUT3=$($MPYTHON pickle_test.py --example_name "$1" --dump)
+    OUT3=$($MPYTHON pickle_tests.py --example_name "$1" --dump)
     STATUS3=$?
     if [ "$STATUS3" -ne 0 ]; then
         echo -e "\e[0;31mFAIL: MicroPython dump failed for $1\e[0m"
         return
     fi
 
-    OUT4=$($CPYTHON pickle_test.py --example_name "$1" --load)
+    OUT4=$($CPYTHON pickle_tests.py --example_name "$1" --load)
     STATUS4=${PIPESTATUS[0]}
     OUT4_LAST_LINE=$(echo "$OUT4" | tail -n 1)
 
@@ -43,7 +44,29 @@ run_test() {
     fi
 
     rm -f dump.pkl
-    echo "Output (MicroPython -> CPython): $OUT4_LAST_LINE"
+    echo "Test Dump: MicroPython -> Load: CPython): $OUT4_LAST_LINE"
+
+    # MicroPython -> MicroPython
+
+    OUT5=$($MPYTHON pickle_tests.py --example_name "$1" --dump)
+    STATUS5=$?
+    if [ "$STATUS5" -ne 0 ]; then
+        echo -e "\e[0;31mFAIL: MicroPython dump failed for $1\e[0m"
+        return
+    fi
+
+    OUT6=$($MPYTHON pickle_tests.py --example_name "$1" --load)
+    STATUS6=${PIPESTATUS[0]}
+    OUT6_LAST_LINE=$(echo "$OUT6" | tail -n 1)
+
+    if [ "$STATUS6" -ne 0 ]; then
+        echo -e "\e[0;31mFAIL: MicroPython load failed for $1\e[0m"
+        echo $OUT6
+        return
+    fi
+
+    rm -f dump.pkl
+    echo "Test Dump: MicroPython -> Load: MicroPython): $OUT6_LAST_LINE"
 
     echo -e "\e[0;32mTest passed for $1\e[0m"
 }

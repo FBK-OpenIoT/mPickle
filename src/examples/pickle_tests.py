@@ -74,12 +74,14 @@ if __name__ == "__main__":
     # import the example
     example_name = args.example_name
     sys.path.append(example_name)
-    import example
+    #remove example from modules after importing test_objects, this helps mpickle to solve modules
+    from example import test_objects
+    sys.modules.pop("example")
 
     if args.dump:
-        serialize_data(example.test_objects)
+        serialize_data(test_objects)
     elif args.load:
-        deserialize_data(example.test_objects)
+        deserialize_data(test_objects)
     else:
         print("❌ You must specify either --dump or --load")
         parser.print_help()
