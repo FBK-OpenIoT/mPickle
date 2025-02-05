@@ -16,7 +16,7 @@ License
 MIT License (MIT)
 
 Copyright (c) 2013, 2014 micropython-lib contributors
-Copyright (c) 2024 Mattia Antonini mattia@mattiantonini.com
+Copyright (c) 2025 Mattia Antonini (Fondazione Bruno Kessler) m.antonini@fbk.eu
  
 This file is based on code originally released under the MIT License by
 micropython-lib contributors. Modifications have been made as noted.

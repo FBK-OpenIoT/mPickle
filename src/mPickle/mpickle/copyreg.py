@@ -11,7 +11,7 @@ Original Authors:
     Python Software Foundation (PFS License)
 
 Modifications by:
-    Mattia Antonini mattia@mattiantonini.com (MIT License)
+    Mattia Antonini (Fondazione Bruno Kessler) m.antonini@fbk.eu (MIT License)
 
 Description:
     copyreg provides functions and utilities to support extensibility for the 

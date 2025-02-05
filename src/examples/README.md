@@ -2,6 +2,7 @@
 
 This folder contains examples demonstrating the usage and functionality of mPickle, showcasing how to serialize and deserialize data between Python and MicroPython environments while addressing module mapping and compatibility challenges.
 
+- [License](#license)
 - [Examples](#examples)
   - [Basic Data Types](#basic-data-types)
   - [Custom classes](#custom-classes)
@@ -9,6 +10,9 @@ This folder contains examples demonstrating the usage and functionality of mPick
 - [Prerequisites](#prerequisites)
 - [Running an Example](#running-an-example)
 - [Running Tests](#running-tests)
+
+## License
+You can read the license [HERE](/LICENSE).
 
 ## Examples
 
