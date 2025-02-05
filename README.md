@@ -17,6 +17,7 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
 - [Examples](#examples)
 - [License](#license)
 - [Reference](#reference)
+- [Acknowledgement](#acknowledgement)
 
 ## Description
 mPickle is a pure-Python library for MicroPython that addresses the challenge of serializing and deserializing data on microcontrollers running MicroPython firmware. By enabling the transfer of Python objects in Pickle’s native binary format, it streamlines communication between MicroPython and standard Python environments. mPickle bridges the gap between IoT devices, edge computing, and the data science world, enabling efficient data transfer and analysis. This capability fosters collaboration among engineers, scientists, and data analysts, enabling seamless work on real-time data insights, model deployment, and data-driven solutions across diverse computing environments—all within a unified data language.
@@ -296,3 +297,6 @@ This library has been described in
 ```
 Put the citation
 ```
+
+## Acknowledgement
+This work was partially supported by the Interconnected Nord-Est Innovation Ecosystem (iNEST) and received funding from the European Union Next-GenerationEU (PIANO NAZIONALE DI RIPRESA E RESILIENZA (PNRR)—MISSIONE 4 COMPONENTE 2, INVESTIMENTO 1.5—D.D. 1058 23/06/2022, ECS00000043). Moreover, it was partially supported by the Horizon Europe “NEUROKIT2E” project (Grant Agreement 101112268) and by the Horizon Europe “Arrowhead fPVN” project (Grant Agreement 101111977).
