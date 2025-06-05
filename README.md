@@ -1,5 +1,5 @@
 # mPickle - Pickle for MicroPython <!-- omit in toc -->
-The **mPickle (microPickle)** library offers a pure-Python implementation of Pickle, compatible with Protocol 5 (except for PickleBuffer), specifically design and adapted for MicroPython. It is adapted by the original CPython library, which can be found [here](https://github.com/python/cpython/blob/main/Lib/pickle.py).
+The **mPickle (microPickle)** library offers a pure-Python implementation of Pickle, compatible with Protocol 4, specifically design and adapted for MicroPython. It is adapted by the original CPython library, which can be found [here](https://github.com/python/cpython/blob/main/Lib/pickle.py).
 
 ## Table of contents <!-- omit in toc -->
 - [Description](#description)
