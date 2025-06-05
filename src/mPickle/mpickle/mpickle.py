@@ -106,7 +106,7 @@ exclude_types = (int, float, dict, list, tuple, set, str, type, bool, complex, t
 bytes_types = (bytes, bytearray)
 
 # These are purely informational; no code uses these.
-format_version = "5.0"                  # File format version we write
+format_version = "4.0"                  # File format version we write
 compatible_formats = ["1.0",            # Original protocol 0
                       "1.1",            # Protocol 0 with INST added
                       "1.2",            # Original protocol 1
@@ -123,7 +123,7 @@ HIGHEST_PROTOCOL = 5
 # The protocol we write by default.  May be less than HIGHEST_PROTOCOL.
 # Only bump this if the oldest still supported version of Python already
 # includes it.
-DEFAULT_PROTOCOL = 5
+DEFAULT_PROTOCOL = 4
 
 class PickleError(Exception):
     """A common base class for the other pickling exceptions."""
