@@ -272,7 +272,7 @@ An alternative way to deploy mPickle is to use `mpr`, which allows you to upload
    and it should print the version of the `mPickle` library.
 
 ### Build a firmware with frozen module
-This repository includes a set of compilation scripts located in `firmware/dev-scripts`, to build a custom MicroPython firmware with mPickle as a frozen module, along with (`ulab`)[https://github.com/v923z/micropython-ulab]. 
+This repository includes a set of compilation scripts located in `firmware/dev-scripts`, to build a custom MicroPython firmware with mPickle as a frozen module, along with (ulab)[https://github.com/v923z/micropython-ulab]. 
 These scripts support firmware compilation for ESP32 (and its variants) as well as UNIX.
 For detailed compilation steps, refer to (this guide)[/firmware/dev-scripts/README.md].
 
