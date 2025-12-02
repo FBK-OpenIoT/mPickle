@@ -8,7 +8,7 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
   - [Serializing (Dumping) Data](#serializing-dumping-data)
   - [Deserializing (Loading) Data](#deserializing-loading-data)
   - [Extending `mpickle` with Non-Standard Objects](#extending-mpickle-with-non-standard-objects)
-  - [Injecting Fake Modules and Functions with `inject_fake_module_func`](#injecting-fake-modules-and-functions-with-inject_fake_module_func)
+  - [Injecting Dummy Modules and Functions with `inject_dummy_module_func`](#injecting-dummy-modules-and-functions-with-inject_dummy_module_func)
 - [Setup](#setup)
   - [Deploy the code using `mpr` (`mpremote`)](#deploy-the-code-using-mpr-mpremote)
     - [Prerequisites](#prerequisites)
@@ -166,9 +166,9 @@ mpickle.register_pickle(
 
 The complete example on NumPy is available in `src/examples/numpy-ndarray`.
 
-### Injecting Fake Modules and Functions with `inject_fake_module_func`
+### Injecting Dummy Modules and Functions with `inject_dummy_module_func`
 
-MicroPython does not always include all standard Python modules, which can cause issues during deserialization when a module or function is missing. To handle this, `mpickle` provides the `inject_fake_module_func` function.  
+MicroPython does not always include all standard Python modules, which can cause issues during deserialization when a module or function is missing. To handle this, `mpickle` provides the `inject_dummy_module_func` function.  
 
 This function dynamically creates placeholder modules and functions within the MicroPython environment, replicating the expected module hierarchy. It ensures that `mpickle` can correctly reference these placeholders during deserialization, allowing seamless object reconstruction.  
 
@@ -176,7 +176,7 @@ This function dynamically creates placeholder modules and functions within the M
 
 #### **Method:**   <!-- omit in toc -->
 ```python
-fake_func = mpickle.inject_fake_module_func(module_path, func_name)
+dummy_func = mpickle.inject_dummy_module_func(module_path, func_name)
 ```
 
 #### **Parameters:**   <!-- omit in toc -->
@@ -184,19 +184,19 @@ fake_func = mpickle.inject_fake_module_func(module_path, func_name)
 - **`func_name`** (*str*) – The name of the function to be injected into the module (e.g., `"_reconstruct"`).  
 
 #### **Returns:**   <!-- omit in toc -->
-- `fake_func` (*callable*) – A placeholder function reference corresponding to the injected module and function. This placeholder can be used in serialization to maintain expected deserialization behavior.  
+- `dummy_func` (*callable*) – A placeholder function reference corresponding to the injected module and function. This placeholder can be used in serialization to maintain expected deserialization behavior.  
 
 
 #### **Example:**   <!-- omit in toc -->
 
-Injecting a fake `_reconstruct` function into the `numpy.core.multiarray` module and using it to reduce a NumPy `ndarray` for serialization:  
+Injecting a dummy `_reconstruct` function into the `numpy.core.multiarray` module and using it to reduce a NumPy `ndarray` for serialization:  
 
 ```python
-from mpickle.mpickle import inject_fake_module_func, register_pickle
+from mpickle.mpickle import inject_dummy_module_func, register_pickle
 
 def reduce_ndarray(x):
-    # Injecting a fake function from a non-existent module to ensure compatibility during deserialization
-    func = inject_fake_module_func("numpy.core.multiarray", "_reconstruct")
+    # Injecting a dummy function from a non-existent module to ensure compatibility during deserialization
+    func = inject_dummy_module_func("numpy.core.multiarray", "_reconstruct")
     
     # Returning reconstruction information:
     # - The function reference (`func`) that will be used for deserialization

@@ -26,7 +26,7 @@
 #
 
 # Importing necessary functions from the mpickle library for handling object serialization and module injection.
-from mpickle.mpickle import (inject_fake_module_func, register_pickle)
+from mpickle.mpickle import (inject_dummy_module_func, register_pickle)
 
 # Importing the ulab library, which is commonly used in MicroPython environments to work with NumPy-like arrays.
 import ulab
@@ -34,8 +34,8 @@ import ulab
 # Function to reduce a NumPy ndarray object into a format suitable for serialization.
 # This function specifies how an ndarray should be broken down into its components for serialization.
 def reduce_ndarray(x):
-    # Injecting a function from a fake module to handle array reconstruction during deserialization.
-    func = inject_fake_module_func("numpy.core.multiarray", "_reconstruct")
+    # Injecting a function from a dummy module to handle array reconstruction during deserialization.
+    func = inject_dummy_module_func("numpy.core.multiarray", "_reconstruct")
     # Returning a tuple of reconstruction information, including type, shape, data type, and the actual data as bytes.
     return (func, (type(x), (0,), b'b'), (1, x.shape, x.dtype, False, bytes(x.tobytes())))
 

@@ -54,7 +54,7 @@ Variables:
 
 Changelog:
     - Replaced certain imports to allow compatibility with `micropython`.
-    - Introduced `inject_fake_module_func` and `revert_fake_module_func` 
+    - Introduced `inject_dummy_module_func` and `revert_dummy_module_func` 
         to handle module injection for objects that may not exist during
         data migration from Python to MicroPython and viceversa.
     - Updated `whichmodule` function to search for modules in custom 
@@ -283,7 +283,7 @@ def register_pickle(obj_type = None,
     
     if obj_reconstructor_func is None and callable(reconstruct_func):
         obj_reconstructor_func = "internal_reconstruct."+ reconstruct_func.__name__
-        inject_fake_module_func(module_path="internal_reconstruct", 
+        inject_dummy_module_func(module_path="internal_reconstruct", 
                                 function_name=reconstruct_func.__name__,
                                 function=reconstruct_func)
     elif obj_reconstructor_func is not None:
@@ -307,9 +307,9 @@ def register_pickle(obj_type = None,
     # Save Reduce function
     dispatch_table[pickling_dict["obj_type"]] = pickling_dict["reduce_func"]
 
-def inject_fake_module_func(module_path, function_name, function=None):
+def inject_dummy_module_func(module_path, function_name, function=None):
     """
-    Injects a fake module structure into sys.modules and creates a dummy function.
+    Injects a dummy module structure into sys.modules and creates a dummy function.
     This is a workaround for modules that do not exist in micropython but yes in traditional pc.
 
     Args:
@@ -348,9 +348,9 @@ def {function_name}():
     setattr(current_module, function_name, function)
     return function
 
-def revert_fake_module_func(module_path, function_name):
+def revert_dummy_module_func(module_path, function_name):
     """
-    Reverts the changes made by inject_fake_module by removing the injected module or function.
+    Reverts the changes made by inject_dummy_module by removing the injected module or function.
 
     Args:
         module_path (str): The dot-separated path of the module (e.g., 'numpy.core.multiarray').
