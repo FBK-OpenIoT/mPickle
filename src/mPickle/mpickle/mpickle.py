@@ -517,6 +517,8 @@ def _handle_none_module_name(module_name, obj):
     if module_name is None:
         if obj is complex:
             module_name = 'builtins'
+        elif obj is bytearray: # workaround for classes pickling
+            module_name = 'builtins'
         elif obj is object: # workaround for classes pickling
             module_name = 'builtins'
         elif type(obj) is type(hasattr): # if obj is function, workaround since __module__ not availble in upy
