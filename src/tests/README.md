@@ -56,7 +56,7 @@ exit()
 Run all tests from the project root directory:
 
 ```bash
-./firmware/dev-scripts/output/micropython -m unittest tests/*
+./firmware/dev-scripts/output/micropython -m unittest src/tests/test_*.py
 ```
 
 This command will:
