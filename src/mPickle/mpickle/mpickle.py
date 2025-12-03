@@ -61,6 +61,7 @@ Changelog:
         * Corrected two's complement handling for negative integers
     - Raise PicklingError when attempting to pickle unpicklable objects
     - Raise UnpicklingError for invalid key data during unpickling
+    - Fixed range object serialization by adding dedicated save_range method
     
     v0.1.0:
     - Replaced certain imports to allow compatibility with `micropython`.
@@ -531,6 +532,8 @@ def _handle_none_module_name(module_name, obj):
             module_name = 'builtins'
         elif obj is object: # workaround for classes pickling
             module_name = 'builtins'
+        elif obj is range: # workaround for classes pickling
+            module_name = 'builtins'
         elif type(obj) is type(hasattr): # if obj is function, workaround since __module__ not availble in upy
             module_name = obj.__globals__['__name__']
     return module_name
@@ -555,7 +558,7 @@ def whichmodule(obj, name):
                 if _getattribute(module, dotted_path) is obj:
                     print("whichmodule - E", module_name, name)
                     # workaround for mpickle._reconstructor, remove mpickle.
-                    if name is '_reconstructor' and module_name.startswith('mpickle.'):
+                    if name == '_reconstructor' and module_name.startswith('mpickle.'):
                         module_name = module_name[8:] 
                     # workaround, if the problem persist for mpickle._reconstructor, replace mpickleXXX with copyreg
                     if module_name.startswith('mpickle'):
@@ -1506,6 +1509,11 @@ class _Pickler:
 
     dispatch[FunctionType] = save_global
     dispatch[type] = save_type
+    
+    def save_range(self, obj):
+        # Save range objects as a tuple: (range, (start, stop, step))
+        self.save_reduce(range, (obj.start, obj.stop, obj.step), obj=obj)
+    dispatch[range] = save_range
 
 
 # Unpickling machinery
