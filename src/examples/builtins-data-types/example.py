@@ -45,13 +45,49 @@ test_objects = [
         None,                  # NoneType
         frozenset(['a', 'b', 'c']), # Immutable Set
         [[1, 2], {'foo': (3, 4)}, {5: [6, 7]}],  # Nested array
-        ({'key1': 'value1'}, [1, 2, {3, 4}])  # Nested dict in tuple
+        ({'key1': 'value1'}, [1, 2, {3, 4}]),  # Nested dict in tuple
+        range(0, 10, 2)        # Range object
     ]
+
+def objects_equal(obj1, obj2):
+    """
+    Compare two objects for equality, handling sets and other unordered types.
+    """
+    if type(obj1) != type(obj2):
+        return False
+    
+    # Handle sets and frozensets (unordered comparison)
+    if isinstance(obj1, (set, frozenset)):
+        return obj1 == obj2
+    
+    # Handle ranges
+    if isinstance(obj1, range):
+        return list(obj1) == list(obj2)
+    
+    # Handle lists and tuples (recursive comparison)
+    if isinstance(obj1, list):
+        if len(obj1) != len(obj2):
+            return False
+        return all(objects_equal(item1, item2) for item1, item2 in zip(obj1, obj2))
+    
+    if isinstance(obj1, tuple):
+        if len(obj1) != len(obj2):
+            return False
+        return all(objects_equal(item1, item2) for item1, item2 in zip(obj1, obj2))
+    
+    # Handle dictionaries (recursive comparison of values)
+    if isinstance(obj1, dict):
+        if set(obj1.keys()) != set(obj2.keys()):
+            return False
+        return all(objects_equal(obj1[key], obj2[key]) for key in obj1.keys())
+    
+    # Standard equality for other types
+    return obj1 == obj2
 
 def serialize_and_deserialize(obj):
     """
     This function attempts to serialize and deserialize the given object using the pickle module.
-    If successful, it prints the serialized byte stream, the deserialized object, and verifies 
+    If successful, it prints the serialized byte stream, the deserialized object, and verifies
     if the deserialized object matches the original.
 
     Parameters:
@@ -62,7 +98,7 @@ def serialize_and_deserialize(obj):
         print(f"Serialized: {serialized}")
         deserialized = pickle.loads(serialized)
         print(f"Deserialized: {deserialized}")
-        print(f"Objects match? {obj == deserialized}")
+        print(f"Objects match? {objects_equal(obj, deserialized)}")
     except Exception as e:
         print(f"Error with {obj}: {e}")
 

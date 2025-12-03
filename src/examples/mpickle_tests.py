@@ -70,6 +70,8 @@ def deserialize_data(test_objects):
         for obj in test_objects:
             if isinstance(obj, np.ndarray) and any(arrays_are_equal(obj, item) for item in loaded_data):
                     results.append(("✅", obj))
+            elif isinstance(obj, range) and any(isinstance(item, range) and list(obj) == list(item) for item in loaded_data):
+                    results.append(("✅", obj))
             elif obj in loaded_data:
                     results.append(("✅", obj))
             else:
