@@ -1484,7 +1484,10 @@ class _Unpickler:
                 if not key:
                     raise EOFError
                 assert isinstance(key, bytes_types)
-                dispatch[key[0]](self)
+                try:
+                    dispatch[key[0]](self)
+                except KeyError:
+                    raise UnpicklingError("invalid load key, '%s'." % key)
         except _Stop as stopinst:
             return stopinst.value
 
