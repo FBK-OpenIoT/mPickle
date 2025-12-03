@@ -51,9 +51,9 @@ This script runs three different tests on each example:
 A successful test run produces an output similar to the following:
 ```
 Testing builtins-data-types
-Test Dump: CPython (pickle) -> Load: MicroPython (mpickle): ✅ 15 successful | ❌ 0 failed | 📦 Total: 15
-Test Dump: MicroPython (mpickle) -> Load: CPython (pickle): ✅ 15 successful | ❌ 0 failed | 📦 Total: 15
-Test Dump: MicroPython (mpickle) -> Load: MicroPython (mpickle): ✅ 15 successful | ❌ 0 failed | 📦 Total: 15
+Test Dump: CPython (pickle) -> Load: MicroPython (mpickle): ✅ 16 successful | ❌ 0 failed | 📦 Total: 16
+Test Dump: MicroPython (mpickle) -> Load: CPython (pickle): ✅ 16 successful | ❌ 0 failed | 📦 Total: 16
+Test Dump: MicroPython (mpickle) -> Load: MicroPython (mpickle): ✅ 16 successful | ❌ 0 failed | 📦 Total: 16
 Test passed for builtins-data-types
 
 Testing custom-class
