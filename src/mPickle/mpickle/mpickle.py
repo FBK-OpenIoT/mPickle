@@ -826,11 +826,15 @@ class _Pickler:
                         if pickle_dict:
                             rv = pickle_dict["reduce_func"](obj)
                         else:
-                            print('save ', obj, obj.__dict__)
-                            rv = (_reconstructor, 
-                                (obj.__class__, obj.__class__.__bases__[0], None),
-                                obj.__dict__)
-                            print('save', type(rv[0]), rv[0].__class__)
+                            try:
+                                print('save ', obj, obj.__dict__)
+                                rv = (_reconstructor, 
+                                    (obj.__class__, obj.__class__.__bases__[0], None),
+                                    obj.__dict__)
+                                print('save', type(rv[0]), rv[0].__class__)
+                            except Exception as e:
+                                raise PicklingError("Can't pickle %r object: %r\n%r" %
+                                                    (t.__name__, obj, e))
                     else:
                         raise PicklingError("Can't pickle %r object: %r" %
                                             (t.__name__, obj))
