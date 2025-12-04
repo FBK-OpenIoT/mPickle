@@ -54,15 +54,17 @@ dfu-util \
 libusb-1.0-0 \
 stlink-tools \
 && rm -rf /var/lib/apt/lists/*
-### MICROPYTHON SETUP
-ENV MICROPYTHON_VERSION=v1.25.0
-RUN git clone --depth 1 --branch ${MICROPYTHON_VERSION} https://github.com/micropython/micropython.git \
-&& git -C micropython submodule update --init  \
-&& make -C micropython/mpy-cross -j $(nproc)
+
 ### ESP-IDF SETUP
 ENV IDF_VERSION=v5.4.1
 ENV IDF_PATH=${WORKDIR}/esp-idf
 RUN git clone -b ${IDF_VERSION} --recursive https://github.com/espressif/esp-idf.git \
 && ${IDF_PATH}/install.sh all
+
+### MICROPYTHON SETUP
+ENV MICROPYTHON_VERSION=v1.25.0
+RUN git clone --depth 1 --branch ${MICROPYTHON_VERSION} https://github.com/micropython/micropython.git \
+&& git -C micropython submodule update --init  \
+&& make -C micropython/mpy-cross -j $(nproc)
 
 COPY . /mpy-compile/
