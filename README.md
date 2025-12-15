@@ -3,13 +3,14 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
 
 ## Table of contents <!-- omit in toc -->
 - [Description](#description)
-- [Usage](#usage)
+- [Supported platforms](#supported-platforms)
+- [Setup](#setup)
+- [Quick-start examples](#quick-start-examples)
   - [Importing the Module](#importing-the-module)
   - [Serializing (Dumping) Data](#serializing-dumping-data)
   - [Deserializing (Loading) Data](#deserializing-loading-data)
   - [Extending `mpickle` with Non-Standard Objects](#extending-mpickle-with-non-standard-objects)
   - [Injecting Dummy Modules and Functions with `inject_dummy_module_func`](#injecting-dummy-modules-and-functions-with-inject_dummy_module_func)
-- [Setup](#setup)
 - [Examples](#examples)
 - [Tests](#tests)
 - [License](#license)
@@ -19,7 +20,17 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
 ## Description
 mPickle is a pure-Python library for MicroPython that addresses the challenge of serializing and deserializing data on microcontrollers running MicroPython firmware. By enabling the transfer of Python objects in Pickle’s native binary format, it streamlines communication between MicroPython and standard Python environments. mPickle bridges the gap between IoT devices, edge computing, and the data science world, enabling efficient data transfer and analysis. This capability fosters collaboration among engineers, scientists, and data analysts, enabling seamless work on real-time data insights, model deployment, and data-driven solutions across diverse computing environments—all within a unified data language.
 
-## Usage  
+## Supported platforms
+The mPickle library is supported by any MicroPython environment since it is implemented in pure-Python. However, we tested the library on the following boards
+- ESP32 (ESP-EYE, ESP32-WROOM-1)
+- ESP32S3 (ESP32-S3-WROOM-1)
+- OpenMV (RT1062)
+- UNIX
+
+## Setup
+Refer to the step-by-step guide [here](/SETUP.md).
+
+## Quick-start examples  
 
 The `mpickle` module in MicroPython works similarly to the `pickle` module in CPython, providing the same API for serializing and deserializing Python objects.
 
@@ -205,9 +216,6 @@ def reduce_ndarray(x):
     )
 ```
 The complete example on NumPy is available in `src/examples/numpy-ndarray`.
-
-## Setup
-Refer to the step-by-step guide [here](/SETUP.md).
 
 ## Examples
 The mPickle project comes with a few examples available [here](/src/examples).
