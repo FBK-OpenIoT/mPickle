@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # -----------------------------------------------------------------------------
 # MIT License
@@ -27,7 +27,29 @@
 # UNIX-compile.sh - Shell script to compile MicroPython for UNIX
 #
 
-if ! $(docker image ls | grep -q "mpy-compile"); then
+set -euo pipefail
+
+BUILD=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --build_img)
+      BUILD=true
+      shift
+      ;;
+    -h|--help)
+      echo "Usage: $0 [--build_img]"
+      exit 0
+      ;;
+    *)
+      echo "Unknown argument: $1" >&2
+      exit 2
+      ;;
+  esac
+done
+
+# Build the Docker image if requested or if not already present
+if $BUILD || ! $(docker image ls | grep -q "mpy-compile"); then
     echo "building docker image"
     docker build docker -t mpy-compile
 fi

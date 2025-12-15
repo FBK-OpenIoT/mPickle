@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # -----------------------------------------------------------------------------
 # MIT License
@@ -27,13 +27,49 @@
 # ESP32-compile-flash.sh - Shell script to compile MicroPython for ESP32 devices
 #
 
-BOARD=${1:-ESP32_GENERIC}
 
-if ! $(docker image ls | grep -q "mpy-compile"); then
+set -euo pipefail
+
+BUILD=false
+BOARD="ESP32_GENERIC"
+VARIANT=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --build_img)
+      BUILD=true
+      shift
+      ;;
+    --board)
+      BOARD="${2:-}"; shift 2
+      ;;
+    --variant)
+      VARIANT="${2:-}"; shift 2
+      ;;
+    --board=*)
+      BOARD="${1#*=}"; shift
+      ;;
+    --variant=*)
+      VARIANT="${1#*=}"; shift
+      ;;
+    -h|--help)
+      echo "Usage: $0 [--build_img] [--board <name>] [--variant <name>]"
+      exit 0
+      ;;
+    *)
+      echo "Unknown argument: $1" >&2
+      exit 2
+      ;;
+  esac
+done
+
+# Build the Docker image if requested or if not already present
+if $BUILD || ! $(docker image ls | grep -q "mpy-compile"); then
     echo "building docker image"
     docker build docker -t mpy-compile
 fi
 
+# Run the compilation and flashing inside the Docker container
 docker run \
     --privileged \
     --rm \

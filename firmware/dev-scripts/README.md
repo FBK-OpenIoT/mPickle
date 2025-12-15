@@ -11,6 +11,7 @@ The resulting firmware (or interpreter, in the case of UNIX) integrates (`mPickl
   - [Preliminaries](#preliminaries)
   - [Build MicroPython for `UNIX`](#build-micropython-for-unix)
   - [Build MicroPython for `ESP32` devices](#build-micropython-for-esp32-devices)
+  - [Force rebuilding the Docker image](#force-rebuilding-the-docker-image)
 
 ## License
 You can read the license [HERE](/LICENSE).
@@ -40,12 +41,24 @@ To run MicroPython on an `ESP32` device, execute the following script:
 ./ESP32-compile-flash.sh
 ```
 If the Docker container for compilation does not already exist, the script will create it first. It will then **compile** the MicroPython firmware and **flash** it to the connected USB device.
-You can specify the target board type by passing the `BOARD` argument to the command:
+You can specify the target board type by passing the `BOARD` and `VARIANT` arguments to the command:
 ```sh
-./ESP32-compile-flash.sh BOARD
+./ESP32-compile-flash.sh --board BOARD --variant VARIANT
 ```
-The available BOARD values can be found (here)[https://github.com/micropython/micropython/tree/master/ports/esp32/boards].
+The available BOARD and VARIANTS values can be found (here)[https://github.com/micropython/micropython/tree/master/ports/esp32/boards].
 Once the flashing process is complete, you can connect to the MicroPython REPL using:
 ```sh
 mpremote
+```
+
+## Force rebuilding the Docker image
+By default, the Docker image is only built once and reused for subsequent compilations. To force rebuilding the Docker image (e.g., after making changes to the Dockerfile or dependencies), use the `--build_img` flag with either compilation script:
+```sh
+./UNIX-compile.sh --build_img
+```
+
+or
+
+```sh
+./ESP32-compile-flash.sh --build_img
 ```
