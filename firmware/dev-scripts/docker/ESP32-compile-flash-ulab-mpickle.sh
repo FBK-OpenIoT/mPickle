@@ -39,6 +39,7 @@ fi
 MATRIX_DIMENSIONS=4
 PORT_DIR=esp32
 BOARD_DIR=$PORT_DIR/boards/$BOARD
+PARTITION_TABLE_FILE=/mpy-compile/custom_partition_table.csv
 
 # Load ESP-IDF environment
 . $IDF_PATH/export.sh
@@ -62,14 +63,24 @@ EXTRA_FLAGS="-DULAB_HAS_DTYPE_OBJECT=1 -DULAB_MAX_DIMS=${MATRIX_DIMENSIONS}"
 # Build MicroPython firmware
 cd /mpy-compile/micropython/ports/esp32
 # IDF_FLAGS="-D MICROPY_BOARD=$BOARD -D MICROPY_BOARD_DIR=/mpy-compile/micropython/ports/esp32/boards/$BOARD -D USER_C_MODULES=$USER_C_MODULES  -DCMAKE_C_FLAGS="$EXTRA_FLAGS" -DCMAKE_CXX_FLAGS="$EXTRA_FLAGS""
-IDF_FLAGS="-D MICROPY_BOARD=$BOARD -D MICROPY_BOARD_DIR=/mpy-compile/micropython/ports/esp32/boards/$BOARD -D USER_C_MODULES=$USER_C_MODULES -D MICROPY_FROZEN_MANIFEST=$FROZEN_MANIFEST -DCMAKE_C_FLAGS="$EXTRA_FLAGS" -DCMAKE_CXX_FLAGS="$EXTRA_FLAGS""
+# IDF_FLAGS="-D MICROPY_BOARD=$BOARD -D MICROPY_BOARD_DIR=/mpy-compile/micropython/ports/esp32/boards/$BOARD -D USER_C_MODULES=$USER_C_MODULES -D MICROPY_FROZEN_MANIFEST=$FROZEN_MANIFEST -DCMAKE_C_FLAGS="$EXTRA_FLAGS" -DCMAKE_CXX_FLAGS="$EXTRA_FLAGS""
+IDF_FLAGS="-D MICROPY_BOARD=$BOARD -D MICROPY_BOARD_DIR=/mpy-compile/micropython/ports/esp32/boards/$BOARD -D USER_C_MODULES=$USER_C_MODULES -D MICROPY_FROZEN_MANIFEST=$FROZEN_MANIFEST"
 [ -n "$BOARD_VARIANT" ] && IDF_FLAGS="$IDF_FLAGS -DMICROPY_BOARD_VARIANT=${BOARD_VARIANT#'-'}"
 
 make -j $(nproc) BOARD=$BOARD submodules
 BUILD=/mpy-compile/micropython/ports/esp32/build-$BOARD$BOARD_VARIANT
 mkdir -p $BUILD
 
-cmake -S . -B $BUILD $IDF_FLAGS  -GNinja
+
+echo "================= Custom Partition Table ================"
+cp $PARTITION_TABLE_FILE /mpy-compile/micropython/ports/esp32/custom_partition_table.csv
+python3 /mpy-compile/patch_partition_table.py "/mpy-compile/micropython/ports/esp32/boards/sdkconfig.base"
+cat /mpy-compile/micropython/ports/esp32/custom_partition_table.csv
+cat /mpy-compile/micropython/ports/esp32/boards/sdkconfig.base | grep CONFIG_PARTITION_TABLE_CUSTOM_FILENAME
+echo "========================================================="
+
+
+cmake -S . -B $BUILD $IDF_FLAGS -D CMAKE_C_FLAGS="$EXTRA_FLAGS" -D CMAKE_CXX_FLAGS="$EXTRA_FLAGS"  -GNinja
 ninja -j $(nproc) -C $BUILD
 python3 makeimg.py \
    $BUILD/sdkconfig \
