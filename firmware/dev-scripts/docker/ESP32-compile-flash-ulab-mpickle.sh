@@ -33,7 +33,7 @@
 
 BOARD=${1:-ESP32_GENERIC}
 if [ -n "$2" ]; then
-   BOARD_VARIANT="-${2}"
+   BOARD_VARIANT="${2}"
 fi
 # build with 4 dimensions
 MATRIX_DIMENSIONS=4
@@ -66,6 +66,11 @@ cd /mpy-compile/micropython/ports/esp32
 # IDF_FLAGS="-D MICROPY_BOARD=$BOARD -D MICROPY_BOARD_DIR=/mpy-compile/micropython/ports/esp32/boards/$BOARD -D USER_C_MODULES=$USER_C_MODULES -D MICROPY_FROZEN_MANIFEST=$FROZEN_MANIFEST -DCMAKE_C_FLAGS="$EXTRA_FLAGS" -DCMAKE_CXX_FLAGS="$EXTRA_FLAGS""
 IDF_FLAGS="-D MICROPY_BOARD=$BOARD -D MICROPY_BOARD_DIR=/mpy-compile/micropython/ports/esp32/boards/$BOARD -D USER_C_MODULES=$USER_C_MODULES -D MICROPY_FROZEN_MANIFEST=$FROZEN_MANIFEST"
 [ -n "$BOARD_VARIANT" ] && IDF_FLAGS="$IDF_FLAGS -DMICROPY_BOARD_VARIANT=${BOARD_VARIANT#'-'}"
+
+echo "Building MicroPython for board:"
+echo "Board: $BOARD"
+echo "Variant: $BOARD_VARIANT"
+
 
 make -j $(nproc) BOARD=$BOARD submodules
 BUILD=/mpy-compile/micropython/ports/esp32/build-$BOARD$BOARD_VARIANT

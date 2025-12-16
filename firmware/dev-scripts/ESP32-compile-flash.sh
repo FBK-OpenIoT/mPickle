@@ -76,4 +76,4 @@ docker run \
     -it \
     -v /media/$(whoami):/media \
     -v $(realpath "$(pwd)/../../src/mPickle"):/mpy-compile/modules/mPickle \
-    mpy-compile /mpy-compile/ESP32-compile-flash-ulab-mpickle.sh $BOARD
+    mpy-compile /mpy-compile/ESP32-compile-flash-ulab-mpickle.sh $BOARD $VARIANT
