@@ -50,6 +50,7 @@ MPICKLE_FROZEN_MANIFEST=/mpy-compile/modules/mPickle/manifest.py
 FROZEN_MANIFEST=/mpy-compile/manifest.py
 
 echo "include(\"$MPICKLE_FROZEN_MANIFEST\")" >> $FROZEN_MANIFEST
+echo "require(\"os-path\")" >> $FROZEN_MANIFEST
 
 if [ -f /mpy-compile/micropython/ports/$BOARD_DIR/manifest.py ]; then
     echo "include(\"/mpy-compile/micropython/ports/$BOARD_DIR/manifest.py\")" >> $FROZEN_MANIFEST
