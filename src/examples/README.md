@@ -7,9 +7,10 @@ This folder contains examples demonstrating the usage and functionality of mPick
   - [Basic Data Types](#basic-data-types)
   - [Custom classes](#custom-classes)
   - [NumPy NDArray](#numpy-ndarray)
+  - [NumPy LeNet-5 Neural Network](#numpy-lenet-5-neural-network)
 - [Prerequisites](#prerequisites)
 - [Running an Example](#running-an-example)
-- [Running Tests](#running-tests)
+- [Running Exmaples as Tests](#running-exmaples-as-tests)
 
 ## License
 You can read the license [HERE](/LICENSE).
@@ -17,6 +18,7 @@ You can read the license [HERE](/LICENSE).
 ## Examples
 
 ![mPickle examples workflow](/docs/imgs/examples_workflow.jpg)
+
 Each example follows the workflow shown in the figure above to validate interoperability between **mPickle** running on **MicroPython** and native **Pickle** running on **CPython**.
 
 Starting from a data object in MicroPython (*Input data*), the object is serialized using `mpickle.dump` and then stored or transmitted. On the CPython side, the data are deserialized (*Output data*) using `pickle.load`. The same serialized data can also be loaded back into MicroPython (e.g., when storing a configuration data structure) using `mpickle.load`.
@@ -33,8 +35,19 @@ This example ([Link](/src/examples/custom-class/)) demonstrates the process of s
 ### NumPy NDArray
 This example ([Link](/src/examples/numpy-ndarray/)) demonstrates how to serialize and deserialize complex Python objects, like NumPY arrays, using both the `mpickle` library for MicroPython and the standard `pickle` library for CPython. The goal of this demonstration is to illustrate how to preserve the data structure, type information, and values of complex objects when transferring data across different environments, such as from CPython to MicroPython.
 
+### NumPy LeNet-5 Neural Network
+This example ([Link](/src/examples/numpy-lenet5/)) demonstrates a complete neural network implementation using `mpickle` for model serialization. The example features a LeNet-5 convolutional neural network that can be trained on both MicroPython and CPython environments, with the trained model weights serializible using `mpickle` for cross-platform compatibility. For better performance, the model should be trained in a CPython environment and then moved to the MicroPython environment. If model is not trained, the example loads pretrained model weights obtained running the training script in CPython.
+
+The example includes:
+- **LeNet-5 Model**: Full implementation with forward pass, training, and evaluation capabilities
+- **Cross-Platform Training**: Optimized training routines for both MicroPython (memory-efficient, low detection performance) and CPython (full-featured, higher detection performance) environments
+- **Model Serialization**: Save and load trained model weights using mPickle
+- **Complete Workflow**: Data generation, training, evaluation, and model persistence
+
+This example showcases how `mpickle` can handle complex data structures (dictionary of Numpy NDArrays) like machine learning models, making it possible to train models in resource-rich environments and deploy them to resource-constrained MicroPython devices while maintaining full compatibility.
+
 ## Prerequisites
-To run these examples, you must first properly build MicroPython, including the `mpickle` library. If you plan to run the NumPy NDArray example, you will also need to include the `ulab` library. To add `mpickle` to your build, follow [this guide](/README.md#setup).
+To run these examples, you must first properly build MicroPython, including the `mpickle` library. If you plan to run the NumPy NDArray example or the NumPY LeNet5 example, you will also need to include the `ulab` library. To add `mpickle` to your build, follow [this guide](/README.md#setup).
 
 ## Running an Example
 To execute an example, navigate to the corresponding example folder and run:
@@ -44,8 +57,8 @@ $MPYTHON -i example.py
 Here, `$MPYTHON` represents the command used to run MicroPython, assuming it has been compiled for UNIX.
 These examples can also be executed on microcontrollers by uploading the code to the device.
 
-## Running Tests
-The provided examples also serve as tests for the `mpickle` library to ensure its compatibility with the native CPython `pickle` module. To verify this, you first need to compile MicroPython for UNIX and then execute:
+## Running Exmaples as Tests
+The `builtins-data-types`, `custom-class`, and `numpy-ndarray` examples also serve as tests for the `mpickle` library to ensure its compatibility with the native CPython `pickle` module. To verify this, you first need to compile MicroPython for UNIX and then execute:
 ```sh
 ./run_test.sh
 ```
