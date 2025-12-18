@@ -4,6 +4,7 @@ This folder contains examples demonstrating the usage and functionality of mPick
 
 - [License](#license)
 - [Examples](#examples)
+  - [Hello World](#hello-world)
   - [Basic Data Types](#basic-data-types)
   - [Custom classes](#custom-classes)
   - [NumPy NDArray](#numpy-ndarray)
@@ -25,6 +26,8 @@ Starting from a data object in MicroPython (*Input data*), the object is seriali
 
 The examples also support the reverse direction: a CPython object that can be serialized with `pickle.dump` can be transferred to MicroPython and reconstructed using `mpickle.load`.
 
+### Hello World
+This basic example ([Link](/src/examples/hello-world/)) demonstrates the process of serializing and deserializing simple data structures, such as a string and an integer. It converts a string and an integer into their corresponding binary representations and then converts them back to their original object forms.
 
 ### Basic Data Types
 This example ([Link](/src/examples/builtins-data-types/)) demonstrates the process of serializing and deserializing various Python data types using the `mpickle` library. The objective is to ensure compatibility across different Python environments, such as MicroPython and standard Python, while showcasing how diverse data structures—including basic data types, collections, and nested structures—can be efficiently serialized to a byte stream and reconstructed.
