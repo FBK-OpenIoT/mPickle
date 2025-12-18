@@ -9,6 +9,7 @@ This folder contains examples demonstrating the usage and functionality of mPick
   - [Custom classes](#custom-classes)
   - [NumPy NDArray](#numpy-ndarray)
   - [NumPy LeNet-5 Neural Network](#numpy-lenet-5-neural-network)
+    - [Model Training](#model-training)
 - [Prerequisites](#prerequisites)
 - [Running an Example](#running-an-example)
 - [Running Exmaples as Tests](#running-exmaples-as-tests)
@@ -48,6 +49,12 @@ The example includes:
 - **Complete Workflow**: Data generation, training, evaluation, and model persistence
 
 This example showcases how `mpickle` can handle complex data structures (dictionary of Numpy NDArrays) like machine learning models, making it possible to train models in resource-rich environments and deploy them to resource-constrained MicroPython devices while maintaining full compatibility.
+
+#### Model Training
+The script provided for training (`lenet5_train_model.py`) should be run by a CPython interpreter since it requires a lot of memory to run. However, it may run also inside a MicroPython environment by properly setting the `heapsize` so it can allocate the necessary memory. To do so, the command is
+```sh
+$MPYTHON -X heapsize=8/16M lenet5_train_model.py
+```
 
 ## Prerequisites
 To run these examples, you must first properly build MicroPython, including the `mpickle` library. If you plan to run the NumPy NDArray example or the NumPY LeNet5 example, you will also need to include the `ulab` library. To add `mpickle` to your build, follow [this guide](/README.md#setup).
