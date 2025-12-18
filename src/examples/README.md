@@ -10,6 +10,7 @@ This folder contains examples demonstrating the usage and functionality of mPick
   - [NumPy NDArray](#numpy-ndarray)
   - [NumPy LeNet-5 Neural Network](#numpy-lenet-5-neural-network)
     - [Model Training](#model-training)
+  - [IoT Datastream](#iot-datastream)
 - [Prerequisites](#prerequisites)
 - [Running an Example](#running-an-example)
 - [Running Exmaples as Tests](#running-exmaples-as-tests)
@@ -55,6 +56,16 @@ The script provided for training (`lenet5_train_model.py`) should be run by a CP
 ```sh
 $MPYTHON -X heapsize=8/16M lenet5_train_model.py
 ```
+
+### IoT Datastream
+This example ([Link](/src/examples/iot-datastream/)) demonstrates how to use `mpickle` for data transmission in IoT applications.
+
+The example includes:
+- **MicroPython Client (`client_micropython.py`)**: it simulates an IoT device (runs on MicroPython) that collects sensor data (temperature, humidity, battery) and sends it to a server using both `mpickle` and JSON formats.
+- **CPython Client (`client_cpython.py`)**: it simulates an IoT device (runs on CPython) that collects sensor data (temperature, humidity, battery) and sends it to a server using both native `pickle` and JSON formats.
+- **CPython Flask Server (`server_cpython.py`)**: it acts a data sink by receiving and processing sensor data, providing endpoints for both `pickle` and JSON formats, and offers statistics.
+
+This example is particularly useful for developers and practitioners working on IoT applications where data interoperability usually plays a critical role.
 
 ## Prerequisites
 To run these examples, you must first properly build MicroPython, including the `mpickle` library. If you plan to run the NumPy NDArray example or the NumPY LeNet5 example, you will also need to include the `ulab` library. To add `mpickle` to your build, follow [this guide](/README.md#setup).
