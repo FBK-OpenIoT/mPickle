@@ -46,6 +46,9 @@ Classes and Functions:
     - dumps(object) -> string
     - load(file) -> object
     - loads(bytes) -> object
+    - register_pickle
+    - inject_dummy_module_func
+    - revert_dummy_module_func
 
 Variables:
     __version__
@@ -62,6 +65,8 @@ Changelog:
     - Raise PicklingError when attempting to pickle unpicklable objects
     - Raise UnpicklingError for invalid key data during unpickling
     - Fixed range object serialization by adding dedicated save_range method
+    - Improved in-line documentation for `register_pickle`, `inject_dummy_module_func`,
+        and `revert_dummy_module_func` functions
     
     v0.1.0:
     - Replaced certain imports to allow compatibility with `micropython`.
@@ -284,13 +289,140 @@ def find_dict_by_key_value(dict_list, query_key, query_value):
 def register_pickle(obj_type = None,
                     obj_full_name=None,
                     obj_module = None,
-                    obj_reconstructor_func = None, 
-                    reduce_func = None, 
-                    reconstruct_func=None, 
+                    obj_reconstructor_func = None,
+                    reduce_func = None,
+                    reconstruct_func=None,
                     setstate_func=None,
-                    map_obj_module = None, 
-                    map_obj_full_name = None, 
+                    map_obj_module = None,
+                    map_obj_full_name = None,
                     map_reconstructor_func = None):
+    """
+    Register custom serialization and deserialization functions for a specific object type.
+    
+    This function allows developers to extend mpickle's functionality by registering custom
+    serialization (`reduce_func`) and deserialization (`reconstruct_func`) functions for
+    different object types. It is particularly useful for handling complex or non-standard
+    objects that require special handling during pickling and unpickling, given al the limited 
+    subset of functionality offered by MicroPython.
+    
+    Parameters:
+    -----------
+    obj_type : type, optional
+        The type of the object to be registered. This is the primary identifier for the object
+        during serialization and deserialization.
+        
+    obj_full_name : str, optional
+        The fully qualified name of the object (e.g., 'module.submodule.ClassName'). This is used
+        to identify the object during deserialization.
+        
+    obj_module : str, optional
+        The module name where the object is defined. This is used to locate the object during
+        deserialization.
+        
+    obj_reconstructor_func : str, optional
+        The fully qualified name of the reconstruction function (e.g., 'module.function_name').
+        This function is called during deserialization to reconstruct the object. If not provided,
+        the `reconstruct_func` parameter can be used to specify a callable function directly.
+        
+    reduce_func : callable, optional
+        A function that takes an object and returns a tuple representing how the object should be
+        serialized. The tuple should contain the callable to reconstruct the object and its arguments.
+        This function is called during serialization.
+        
+    reconstruct_func : callable, optional
+        A function that takes the serialized data and reconstructs the original object. This function
+        is called during deserialization. If not provided, the `obj_reconstructor_func` parameter
+        can be used to specify the function by name.
+        
+    setstate_func : callable, optional
+        A function that takes the reconstructed object and its state, and sets the object's state.
+        This is useful for objects that require additional initialization after reconstruction.
+        
+    map_obj_module : str, optional
+        The module name to map to during deserialization. This is useful when the module hierarchy
+        differs between the serialization and deserialization environments.
+        
+    map_obj_full_name : str, optional
+        The fully qualified name to map to during deserialization. This is useful when the object's
+        fully qualified name differs between the serialization and deserialization environments.
+        
+    map_reconstructor_func : str, optional
+        The fully qualified name of the reconstruction function to map to during deserialization.
+        This is useful when the reconstruction function's name differs between the serialization
+        and deserialization environments.
+    
+    Returns:
+    --------
+    None
+        This function does not return a value. It registers the provided functions and mappings
+        for future use during serialization and deserialization.
+    
+    Examples:
+    --------
+    Example 1: Registering a custom class with a reduce function
+    
+    >>> class MyClass:
+    ...     def __init__(self, value):
+    ...         self.value = value
+    
+    >>> def reduce_myclass(obj):
+    ...     return (MyClass, (obj.value,))
+    
+    >>> register_pickle(
+    ...     obj_type=MyClass,
+    ...     obj_full_name='__main__.MyClass',
+    ...     obj_module='__main__',
+    ...     reduce_func=reduce_myclass
+    ... )
+    
+    Example 2: Registering a custom class with a reconstruction function
+    
+    >>> def reconstruct_myclass(value):
+    ...     return MyClass(value)
+    
+    >>> register_pickle(
+    ...     obj_type=MyClass,
+    ...     obj_full_name='__main__.MyClass',
+    ...     obj_module='__main__',
+    ...     reconstruct_func=reconstruct_myclass
+    ... )
+    
+    Example 3: Registering a custom class with both reduce and reconstruct functions
+    
+    >>> def reduce_myclass(obj):
+    ...     return (reconstruct_myclass, (obj.value,))
+    
+    >>> register_pickle(
+    ...     obj_type=MyClass,
+    ...     obj_full_name='__main__.MyClass',
+    ...     obj_module='__main__',
+    ...     reduce_func=reduce_myclass,
+    ...     reconstruct_func=reconstruct_myclass
+    ... )
+    
+    Example 4: Registering a custom class with module and name mapping
+    
+    >>> register_pickle(
+    ...     obj_type=MyClass,
+    ...     obj_full_name='__main__.MyClass',
+    ...     obj_module='__main__',
+    ...     map_obj_module='mymodule',
+    ...     map_obj_full_name='mymodule.MyClass',
+    ...     reduce_func=reduce_myclass,
+    ...     reconstruct_func=reconstruct_myclass
+    ... )
+    
+    Notes:
+    ------
+    - If `obj_reconstructor_func` is not provided and `reconstruct_func` is callable, a dummy module
+      will be created to host the reconstruction function.
+    - The `reduce_func` is called during serialization to convert the object into a serializable form.
+    - The `reconstruct_func` is called during deserialization to reconstruct the object from its
+      serialized form.
+    - The `setstate_func` is called after reconstruction to set the object's state, if needed.
+    - Module and name mappings are useful for handling differences in module hierarchies between
+      serialization and deserialization environments.
+    """
     
     if obj_reconstructor_func is None and callable(reconstruct_func):
         obj_reconstructor_func = "internal_reconstruct."+ reconstruct_func.__name__
@@ -321,14 +453,61 @@ def register_pickle(obj_type = None,
 def inject_dummy_module_func(module_path, function_name, function=None):
     """
     Injects a dummy module structure into sys.modules and creates a dummy function.
-    This is a workaround for modules that do not exist in micropython but yes in traditional pc.
-
-    Args:
-        module_path (str): The dot-separated path of the module (e.g., 'numpy.core.multiarray').
-        function_name (str): The name of the dummy function to add to the final module in the path.
-
+    
+    This function is primarily used as a workaround for handling modules that exist in
+    traditional Python environments but may not be available in MicroPython. It creates
+    a dummy module structure and optionally adds a dummy function to it, allowing the
+    serialization and deserialization process to work seamlessly across different
+    Python environments.
+    
+    Parameters:
+    -----------
+    module_path : str
+        The dot-separated path of the module to create (e.g., 'numpy.core.multiarray').
+        This parameter defines the module hierarchy that will be created in sys.modules.
+        
+    function_name : str
+        The name of the dummy function to add to the final module in the path.
+        This function will be accessible through the created module structure.
+        
+    function : callable, optional
+        An optional callable to be assigned as the dummy function. If not provided,
+        a default dummy function will be created that returns a string indicating
+        it's a dummy function.
+    
     Returns:
-        None
+    --------
+    callable
+        The function that was created or assigned. This allows the caller to use
+        the function reference for further operations.
+    
+    Examples:
+    --------
+    Example 1: Creating a dummy module with a default function
+    
+    >>> func = inject_dummy_module_func('numpy.core.multiarray', 'reconstruct_array')
+    >>> func()
+    "Dummy function 'reconstruct_array'"
+    
+    Example 2: Creating a dummy module with a custom function
+    
+    >>> def my_custom_reconstructor(*args, **kwargs):
+    ...     return "Custom reconstruction logic"
+    
+    >>> func = inject_dummy_module_func('scipy.special', 'my_func', my_custom_reconstructor)
+    >>> func()
+    "Custom reconstruction logic"
+    
+    Notes:
+    ------
+    - This function modifies sys.modules by adding the specified module structure.
+    - The created modules are empty shells and do not contain the actual functionality
+      of the modules they represent.
+    - This is particularly useful for cross-environment compatibility, especially when
+      serializing objects in a full Python environment that need to be deserialized
+      in a MicroPython environment with limited module availability.
+    - The function returns the created/assigned function, which can be useful for
+      reference or further configuration.
     """
     module_parts = module_path.split('.')
     
@@ -361,14 +540,59 @@ def {function_name}():
 
 def revert_dummy_module_func(module_path, function_name):
     """
-    Reverts the changes made by inject_dummy_module by removing the injected module or function.
-
-    Args:
-        module_path (str): The dot-separated path of the module (e.g., 'numpy.core.multiarray').
-        function_name (str): The name of the dummy function to remove from the final module in the path.
-
+    Reverts the changes made by inject_dummy_module_func by removing the injected module or function.
+    
+    This function cleans up the dummy module structure and functions created by
+    inject_dummy_module_func. It works backwards through the module hierarchy,
+    removing the specified function first, then cleaning up any empty modules
+    that were created as part of the dummy module structure.
+    
+    Parameters:
+    -----------
+    module_path : str
+        The dot-separated path of the module to clean up (e.g., 'numpy.core.multiarray').
+        This should match the module_path used when calling inject_dummy_module_func.
+        
+    function_name : str
+        The name of the dummy function to remove from the final module in the path.
+        This should match the function_name used when calling inject_dummy_module_func.
+    
     Returns:
-        None
+    --------
+    None
+        This function does not return a value. It modifies sys.modules by removing
+        the specified dummy module structure and function.
+    
+    Examples:
+    --------
+    Example 1: Cleaning up a dummy module
+    
+    >>> # First create a dummy module
+    >>> func = inject_dummy_module_func('numpy.core.multiarray', 'reconstruct_array')
+    >>> # Then clean it up
+    >>> revert_dummy_module_func('numpy.core.multiarray', 'reconstruct_array')
+    
+    Example 2: Cleaning up a dummy module with a custom function
+    
+    >>> def my_custom_reconstructor(*args, **kwargs):
+    ...     return "Custom reconstruction logic"
+    
+    >>> # First create a dummy module with custom function
+    >>> func = inject_dummy_module_func('scipy.special', 'my_func', my_custom_reconstructor)
+    >>> # Then clean it up
+    >>> revert_dummy_module_func('scipy.special', 'my_func')
+    
+    Notes:
+    ------
+    - This function modifies sys.modules by removing the specified module structure.
+    - It works backwards through the module hierarchy, removing empty modules
+      that were created as part of the dummy module structure.
+    - If the module contains other attributes besides the specified function,
+      the module will not be removed from sys.modules.
+    - This function should be called when the dummy modules are no longer needed
+      to avoid polluting the sys.modules namespace.
+    - It's good practice to call this function in a finally block or using contextlib
+      to ensure cleanup even if errors occur during processing.
     """
     module_parts = module_path.split('.')
     
