@@ -5,6 +5,7 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
 - [Description](#description)
 - [Supported platforms](#supported-platforms)
 - [Setup](#setup)
+- [API Documentation](#api-documentation)
 - [Quick-start examples](#quick-start-examples)
   - [Importing the Module](#importing-the-module)
   - [Serializing (Dumping) Data](#serializing-dumping-data)
@@ -29,6 +30,9 @@ The mPickle library is supported by any MicroPython environment since it is impl
 
 ## Setup
 Refer to the step-by-step guide [here](/docs/SETUP.md).
+
+## API Documentation
+The detailed definition of the mPickle APIs, including signatures and usages, can be found [here](/docs/API.md).
 
 ## Quick-start examples  
 
