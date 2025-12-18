@@ -16,6 +16,14 @@ You can read the license [HERE](/LICENSE).
 
 ## Examples
 
+![mPickle examples workflow](/docs/imgs/examples_workflow.jpg)
+Each example follows the workflow shown in the figure above to validate interoperability between **mPickle** running on **MicroPython** and native **Pickle** running on **CPython**.
+
+Starting from a data object in MicroPython (*Input data*), the object is serialized using `mpickle.dump` and then stored or transmitted. On the CPython side, the data are deserialized (*Output data*) using `pickle.load`. The same serialized data can also be loaded back into MicroPython (e.g., when storing a configuration data structure) using `mpickle.load`.
+
+The examples also support the reverse direction: a CPython object that can be serialized with `pickle.dump` can be transferred to MicroPython and reconstructed using `mpickle.load`.
+
+
 ### Basic Data Types
 This example ([Link](/src/examples/builtins-data-types/)) demonstrates the process of serializing and deserializing various Python data types using the `mpickle` library. The objective is to ensure compatibility across different Python environments, such as MicroPython and standard Python, while showcasing how diverse data structures—including basic data types, collections, and nested structures—can be efficiently serialized to a byte stream and reconstructed.
 
