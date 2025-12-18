@@ -63,7 +63,7 @@ Changelog:
         * Built `int_from_bytes_manual()` for missing from_bytes() method
         * Corrected two's complement handling for negative integers
     - Raise PicklingError when attempting to pickle unpicklable objects
-    - Raise UnpicklingError for invalid key data during unpickling
+    - Raise UnpicklingError for invalid key data or corrupted data during unpickling
     - Fixed range object serialization by adding dedicated save_range method
     - Improved in-line documentation for `register_pickle`, `inject_dummy_module_func`,
         and `revert_dummy_module_func` functions
@@ -2216,7 +2216,11 @@ class _Unpickler:
             # Workaround for internal mpickle modules not resolved
             module = "mpickle."+module
             print("C - FindClass", module, name)
-            __import__(module)
+            try:
+                # If does not work again, raise an UnpicklingError Exception
+                __import__(module)
+            except ImportError as e:
+                raise UnpicklingError(e)
 
         if self.proto >= 4:
             if module in sys.modules:
