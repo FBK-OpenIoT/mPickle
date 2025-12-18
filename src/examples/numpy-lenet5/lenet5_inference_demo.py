@@ -37,7 +37,7 @@ def main():
     """Main function to run LeNet-5 inference demo."""
     
     # Create inference engine
-    engine = create_inference_engine()
+    engine = create_inference_engine("./weights/lenet5_weights_cpython.pkl")
     
     # Run continuous inference
     engine.run_continuous_inference(batch_size=1, delay_seconds=1)
