@@ -28,7 +28,7 @@ The mPickle library is supported by any MicroPython environment since it is impl
 - UNIX
 
 ## Setup
-Refer to the step-by-step guide [here](/SETUP.md).
+Refer to the step-by-step guide [here](/docs/SETUP.md).
 
 ## Quick-start examples  
 

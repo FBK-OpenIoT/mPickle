@@ -15,7 +15,7 @@ The mPickle library tests are specifically designed to run on **MicroPython UNIX
    ```
    ./firmware/dev-scripts/output/micropython
    ```
-   Otherwise, follow this [guide](/SETUP.md).
+   Otherwise, follow this [guide](/docs/SETUP.md).
 
 2. **Required MicroPython Packages**
    Install the following packages using the MicroPython package manager (`mip`):
