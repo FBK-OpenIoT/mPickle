@@ -11,6 +11,7 @@ This folder contains examples demonstrating the usage and functionality of mPick
   - [NumPy LeNet-5 Neural Network](#numpy-lenet-5-neural-network)
     - [Model Training](#model-training)
   - [IoT Datastream](#iot-datastream)
+    - [Usage](#usage)
 - [Prerequisites](#prerequisites)
 - [Running an Example](#running-an-example)
 - [Running Exmaples as Tests](#running-exmaples-as-tests)
@@ -66,6 +67,33 @@ The example includes:
 - **CPython Flask Server (`server_cpython.py`)**: it acts a data sink by receiving and processing sensor data, providing endpoints for both `pickle` and JSON formats, and offers statistics.
 
 This example is particularly useful for developers and practitioners working on IoT applications where data interoperability usually plays a critical role.
+
+#### Usage
+This example, as described above, has two components: a client and a server. The server should be run with a full-featured Python interpreter using:
+```sh
+$PYTHON server_cpython.py
+```
+This example, as described above, has two components: a client and a server. The server should be run with a full-featured Python interpreter using: [http://localhost:5000](http://localhost:5000).
+
+The second component is the client, which should be run with MicroPython using:
+```sh
+$MPYTHON client_micropython.py
+```
+You may need to edit the script by updating its internal configuration:
+```python
+# Configuration
+WIFI_SSID = "YOUR_WIFI_SSID"
+WIFI_PASSWORD = "YOUR_WIFI_PASSWORD"
+SERVER_URL = "http://localhost:5000/sensor_data"  # Change to your server IP
+READING_INTERVAL = 10  # seconds
+```
+
+This script can also be run on a device by properly configuring the Wi-Fi credentials and uncommenting the connection code in the `main` function.
+
+Finally, you can also test the server using the native Python client by running:
+```sh
+$PYTHON client_cpython.py
+```
 
 ## Prerequisites
 To run these examples, you must first properly build MicroPython, including the `mpickle` library. If you plan to run the NumPy NDArray example or the NumPY LeNet5 example, you will also need to include the `ulab` library. To add `mpickle` to your build, follow [this guide](/README.md#setup).
