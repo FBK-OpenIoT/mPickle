@@ -3,6 +3,8 @@
 This folder contains examples demonstrating the usage and functionality of mPickle, showcasing how to serialize and deserialize data between Python and MicroPython environments while addressing module mapping and compatibility challenges.
 
 - [License](#license)
+- [Prerequisites](#prerequisites)
+- [Running an Example](#running-an-example)
 - [Examples](#examples)
   - [Hello World](#hello-world)
   - [Basic Data Types](#basic-data-types)
@@ -12,12 +14,21 @@ This folder contains examples demonstrating the usage and functionality of mPick
     - [Model Training](#model-training)
   - [IoT Datastream](#iot-datastream)
     - [Usage](#usage)
-- [Prerequisites](#prerequisites)
-- [Running an Example](#running-an-example)
-- [Running Exmaples as Tests](#running-exmaples-as-tests)
+- [Running Examples as Tests](#running-examples-as-tests)
 
 ## License
 You can read the license [HERE](/LICENSE).
+
+## Prerequisites
+To run these examples, you must first properly build MicroPython, including the `mpickle` library. If you plan to run the NumPy NDArray example or the NumPY LeNet5 example, you will also need to include the `ulab` library. To add `mpickle` to your build, follow [this guide](/README.md#setup).
+
+## Running an Example
+To execute an example, navigate to the corresponding example folder and run:
+```sh
+$MPYTHON -i example.py
+```
+Here, `$MPYTHON` represents the command used to run MicroPython, assuming it has been compiled for UNIX.
+These examples can also be executed on microcontrollers by uploading the code to the device.
 
 ## Examples
 
@@ -95,18 +106,8 @@ Finally, you can also test the server using the native Python client by running:
 $PYTHON client_cpython.py
 ```
 
-## Prerequisites
-To run these examples, you must first properly build MicroPython, including the `mpickle` library. If you plan to run the NumPy NDArray example or the NumPY LeNet5 example, you will also need to include the `ulab` library. To add `mpickle` to your build, follow [this guide](/README.md#setup).
 
-## Running an Example
-To execute an example, navigate to the corresponding example folder and run:
-```sh
-$MPYTHON -i example.py
-```
-Here, `$MPYTHON` represents the command used to run MicroPython, assuming it has been compiled for UNIX.
-These examples can also be executed on microcontrollers by uploading the code to the device.
-
-## Running Exmaples as Tests
+## Running Examples as Tests
 The `builtins-data-types`, `custom-class`, and `numpy-ndarray` examples also serve as tests for the `mpickle` library to ensure its compatibility with the native CPython `pickle` module. To verify this, you first need to compile MicroPython for UNIX and then execute:
 ```sh
 ./run_test.sh
