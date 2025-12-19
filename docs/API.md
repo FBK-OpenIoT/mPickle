@@ -6,13 +6,6 @@ This document provides a comprehensive overview of the public APIs exposed by th
 
 - [Introduction](#introduction)
 - [Version Information](#version-information)
-- [Exceptions](#exceptions)
-  - [PickleError](#pickleerror)
-  - [PicklingError](#picklingerror)
-  - [UnpicklingError](#unpicklingerror)
-- [Classes](#classes)
-  - [Pickler](#pickler)
-  - [Unpickler](#unpickler)
 - [Functions](#functions)
   - [dump()](#dump)
   - [dumps()](#dumps)
@@ -21,6 +14,13 @@ This document provides a comprehensive overview of the public APIs exposed by th
   - [register\_pickle()](#register_pickle)
   - [inject\_dummy\_module\_func()](#inject_dummy_module_func)
   - [revert\_dummy\_module\_func()](#revert_dummy_module_func)
+- [Classes](#classes)
+  - [Pickler](#pickler)
+  - [Unpickler](#unpickler)
+- [Exceptions](#exceptions)
+  - [PickleError](#pickleerror)
+  - [PicklingError](#picklingerror)
+  - [UnpicklingError](#unpicklingerror)
 
 ## Introduction
 
@@ -33,111 +33,6 @@ mPickle is a modified version of Python's standard `pickle` module designed to w
 ## Version Information
 
 - **`__version__`**: A string containing the current version of the mPickle library (e.g., "0.2.0").
-
-## Exceptions
-
-### PickleError
-
-The base class for all exceptions raised by the mPickle module.
-
-```python
-from mpickle import PickleError
-
-try:
-    # Some pickling operation
-    pass
-except PickleError as e:
-    print(f"Pickle error occurred: {e}")
-```
-
-### PicklingError
-
-Raised when an error occurs during the pickling process. This is a subclass of `PickleError`.
-
-```python
-from mpickle import PicklingError
-
-try:
-    # Attempt to pickle an unpicklable object
-    import mpickle
-    mpickle.dumps(lambda x: x)  # Functions can't be pickled
-except PicklingError as e:
-    print(f"Could not pickle object: {e}")
-```
-
-### UnpicklingError
-
-Raised when an error occurs during the unpickling process. This is a subclass of `PickleError`.
-
-```python
-from mpickle import UnpicklingError
-
-try:
-    # Attempt to unpickle corrupted data
-    import mpickle
-    mpickle.loads(b"corrupted data")
-except UnpicklingError as e:
-    print(f"Could not unpickle data: {e}")
-```
-
-## Classes
-
-### Pickler
-
-The `Pickler` class is used to serialize Python objects into a byte stream.
-
-**Constructor:**
-```python
-Pickler(file, protocol=None, fix_imports=True)
-```
-
-**Parameters:**
-- `file`: A file-like object with a `write()` method where the pickled data will be written.
-- `protocol`: The protocol version to use for pickling. If `None`, the highest protocol version will be used.
-- `fix_imports`: If `True`, pickle will try to map the new Python 3 names to the old module names used in Python 2, so that the pickle data stream is readable with Python 2.
-
-**Methods:**
-- `dump(obj)`: Pickles the given object and writes it to the file object passed to the constructor.
-
-**Example:**
-```python
-import mpickle
-
-# Create a Pickler instance
-with open('data.pkl', 'wb') as f:
-    pickler = mpickle.Pickler(f, protocol=4)
-    pickler.dump({'a': 1, 'b': 2, 'c': 3})
-    pickler.dump([1, 2, 3, 4, 5])
-```
-
-### Unpickler
-
-The `Unpickler` class is used to deserialize Python objects from a byte stream.
-
-**Constructor:**
-```python
-Unpickler(file, fix_imports=True, encoding="ASCII", errors="strict")
-```
-
-**Parameters:**
-- `file`: A file-like object with a `readline()` and `read()` method from which the pickled data will be read.
-- `fix_imports`: If `True`, pickle will try to map the old Python 2 names to the new module names used in Python 3.
-- `encoding`: Tells pickle how to decode any instances of `str` objects from the pickle data stream.
-- `errors`: Tells pickle how to deal with errors when decoding `str` objects.
-
-**Methods:**
-- `load()`: Reads a pickled object from the file object passed to the constructor and returns it.
-
-**Example:**
-```python
-import mpickle
-
-# Create an Unpickler instance
-with open('data.pkl', 'rb') as f:
-    unpickler = mpickle.Unpickler(f)
-    dict_data = unpickler.load()  # Load the dictionary
-    list_data = unpickler.load()  # Load the list
-```
 
 ## Functions
 
@@ -375,4 +270,109 @@ mpickle.revert_dummy_module_func(
     module_name='custom_module',
     func_name='reconstruct_object'
 )
+```
+
+## Classes
+
+### Pickler
+
+The `Pickler` class is used to serialize Python objects into a byte stream.
+
+**Constructor:**
+```python
+Pickler(file, protocol=None, fix_imports=True)
+```
+
+**Parameters:**
+- `file`: A file-like object with a `write()` method where the pickled data will be written.
+- `protocol`: The protocol version to use for pickling. If `None`, the highest protocol version will be used.
+- `fix_imports`: If `True`, pickle will try to map the new Python 3 names to the old module names used in Python 2, so that the pickle data stream is readable with Python 2.
+
+**Methods:**
+- `dump(obj)`: Pickles the given object and writes it to the file object passed to the constructor.
+
+**Example:**
+```python
+import mpickle
+
+# Create a Pickler instance
+with open('data.pkl', 'wb') as f:
+    pickler = mpickle.Pickler(f, protocol=4)
+    pickler.dump({'a': 1, 'b': 2, 'c': 3})
+    pickler.dump([1, 2, 3, 4, 5])
+```
+
+### Unpickler
+
+The `Unpickler` class is used to deserialize Python objects from a byte stream.
+
+**Constructor:**
+```python
+Unpickler(file, fix_imports=True, encoding="ASCII", errors="strict")
+```
+
+**Parameters:**
+- `file`: A file-like object with a `readline()` and `read()` method from which the pickled data will be read.
+- `fix_imports`: If `True`, pickle will try to map the old Python 2 names to the new module names used in Python 3.
+- `encoding`: Tells pickle how to decode any instances of `str` objects from the pickle data stream.
+- `errors`: Tells pickle how to deal with errors when decoding `str` objects.
+
+**Methods:**
+- `load()`: Reads a pickled object from the file object passed to the constructor and returns it.
+
+**Example:**
+```python
+import mpickle
+
+# Create an Unpickler instance
+with open('data.pkl', 'rb') as f:
+    unpickler = mpickle.Unpickler(f)
+    dict_data = unpickler.load()  # Load the dictionary
+    list_data = unpickler.load()  # Load the list
+```
+
+## Exceptions
+
+### PickleError
+
+The base class for all exceptions raised by the mPickle module.
+
+```python
+from mpickle import PickleError
+
+try:
+    # Some pickling operation
+    pass
+except PickleError as e:
+    print(f"Pickle error occurred: {e}")
+```
+
+### PicklingError
+
+Raised when an error occurs during the pickling process. This is a subclass of `PickleError`.
+
+```python
+from mpickle import PicklingError
+
+try:
+    # Attempt to pickle an unpicklable object
+    import mpickle
+    mpickle.dumps(lambda x: x)  # Functions can't be pickled
+except PicklingError as e:
+    print(f"Could not pickle object: {e}")
+```
+
+### UnpicklingError
+
+Raised when an error occurs during the unpickling process. This is a subclass of `PickleError`.
+
+```python
+from mpickle import UnpicklingError
+
+try:
+    # Attempt to unpickle corrupted data
+    import mpickle
+    mpickle.loads(b"corrupted data")
+except UnpicklingError as e:
+    print(f"Could not unpickle data: {e}")
 ```
