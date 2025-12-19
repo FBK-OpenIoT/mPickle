@@ -1,28 +1,26 @@
-# mPickle API Documentation
+# mPickle API Documentation <!-- omit in toc -->
 
 This document provides a comprehensive overview of the public APIs exposed by the mPickle library, which is a MicroPython-compatible implementation of Python's pickle module. mPickle enables serialization and deserialization of Python objects with special adaptations for MicroPython environments.
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
-- [mPickle API Documentation](#mpickle-api-documentation)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Version Information](#version-information)
-  - [Exceptions](#exceptions)
-    - [PickleError](#pickleerror)
-    - [PicklingError](#picklingerror)
-    - [UnpicklingError](#unpicklingerror)
-  - [Classes](#classes)
-    - [Pickler](#pickler)
-    - [Unpickler](#unpickler)
-  - [Functions](#functions)
-    - [dump()](#dump)
-    - [dumps()](#dumps)
-    - [load()](#load)
-    - [loads()](#loads)
-    - [register\_pickle()](#register_pickle)
-    - [inject\_dummy\_module\_func()](#inject_dummy_module_func)
-    - [revert\_dummy\_module\_func()](#revert_dummy_module_func)
+- [Introduction](#introduction)
+- [Version Information](#version-information)
+- [Exceptions](#exceptions)
+  - [PickleError](#pickleerror)
+  - [PicklingError](#picklingerror)
+  - [UnpicklingError](#unpicklingerror)
+- [Classes](#classes)
+  - [Pickler](#pickler)
+  - [Unpickler](#unpickler)
+- [Functions](#functions)
+  - [dump()](#dump)
+  - [dumps()](#dumps)
+  - [load()](#load)
+  - [loads()](#loads)
+  - [register\_pickle()](#register_pickle)
+  - [inject\_dummy\_module\_func()](#inject_dummy_module_func)
+  - [revert\_dummy\_module\_func()](#revert_dummy_module_func)
 
 ## Introduction
 
