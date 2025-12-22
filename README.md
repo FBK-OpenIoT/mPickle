@@ -14,6 +14,7 @@ The **mPickle (microPickle)** library offers a pure-Python implementation of Pic
   - [Injecting Dummy Modules and Functions with `inject_dummy_module_func`](#injecting-dummy-modules-and-functions-with-inject_dummy_module_func)
 - [Examples](#examples)
 - [Tests](#tests)
+- [Benchmarks](#benchmarks)
 - [License](#license)
 - [Reference](#reference)
 - [Acknowledgement](#acknowledgement)
@@ -226,6 +227,9 @@ The mPickle project comes with a few examples available [here](/src/examples).
 
 ## Tests
 The mPickle project come with a set of extensive unit tests available [here](/src/tests/)
+
+## Benchmarks
+The mPickle project come with a benchmarking suite to compare it against JSON. The code and results are [here](/benchmarks/).
 
 ## License
 You can read the license [HERE](/LICENSE).
