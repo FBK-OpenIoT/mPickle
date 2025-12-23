@@ -205,11 +205,11 @@ def plot_size_comparison(df_agg_orig, output_dir, file_suffix="dict", plot_forma
     ax.indicate_inset_zoom(axins, edgecolor="black")
 
     # ax.set_title('mPickle vs JSON Size Comparison by Data Type (1-2000 elements)', fontsize=18)
-    ax.set_xlabel('Number of Elements', fontsize=18)
-    ax.set_ylabel('Serialization Size (kB)', fontsize=18)
-    ax.tick_params(axis='both', which='major', labelsize=16)
+    ax.set_xlabel('Number of Elements', fontsize=22)
+    ax.set_ylabel('Serialization Size (kB)', fontsize=22)
+    ax.tick_params(axis='both', which='major', labelsize=20)
     ax.grid(True, alpha=0.3)
-    ax.legend(fontsize=14, loc='lower right')
+    ax.legend(fontsize=18, loc='lower right')
     
     plt.tight_layout()
     plt.savefig(size_comparison_file, dpi=600, bbox_inches='tight')
@@ -260,12 +260,12 @@ def plot_space_savings(df_agg_orig, output_dir, file_suffix='dict', plot_format=
                 label=label, linewidth=2, markersize=5)
     
     # ax.set_title('mPickle Space Savings vs JSON - by Data Type', fontsize=16)
-    ax.set_xlabel('Number of Elements', fontsize=18)
-    ax.set_ylabel('Space Savings (%)', fontsize=18)
-    ax.tick_params(axis='both', which='major', labelsize=16)
+    ax.set_xlabel('Number of Elements', fontsize=22)
+    ax.set_ylabel('Space Savings (%)', fontsize=22)
+    ax.tick_params(axis='both', which='major', labelsize=20)
     ax.set_ylim(top=100)
     plt.grid(True, alpha=0.3)
-    plt.legend(fontsize=10, loc='lower right')
+    plt.legend(fontsize=18, loc='lower right')
     plt.tight_layout()
     
     # Add zero line
@@ -317,11 +317,11 @@ def plot_efficiency_ratio(df_agg_orig, output_dir, file_suffix='dict', plot_form
         ax.semilogx(sizes, ratios, color=color, marker='o',
                 label=label, linewidth=2, markersize=5)
     
-    ax.set_title('mPickle Efficiency Ratio vs JSON by Data Type (1-2000 elements)', fontsize=16)
-    ax.set_xlabel('Number of Elements', fontsize=12)
-    ax.set_ylabel('mPickle Size / JSON Size', fontsize=12)
+    ax.set_title('mPickle Efficiency Ratio vs JSON by Data Type (1-2000 elements)', fontsize=22)
+    ax.set_xlabel('Number of Elements', fontsize=22)
+    ax.set_ylabel('mPickle Size / JSON Size', fontsize=20)
     plt.grid(True, alpha=0.3)
-    plt.legend(fontsize=12, loc='upper right')
+    plt.legend(fontsize=18, loc='upper right')
     plt.tight_layout()
     
     # Add 100% line (where mPickle = JSON)
