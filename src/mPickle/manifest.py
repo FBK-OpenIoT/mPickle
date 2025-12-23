@@ -29,7 +29,7 @@
 #
 
 metadata(
-    version="0.1.0",
+    version="0.2.0",
     description="This library provides a pure-Python implementation of Pickle for MicroPython. It is based on the original CPython library",
     author="Mattia Antonini (Fondazione Bruno Kessler) <m.antonini@fbk.eu>",
 )

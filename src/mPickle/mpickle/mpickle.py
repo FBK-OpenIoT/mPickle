@@ -56,7 +56,7 @@ Variables:
     compatible_formats
 
 Changelog:
-    v0.2.0 (2025-12-03):
+    v0.2.0 (2025-12-23):
     - Fixed critical MicroPython compatibility issues with integer encoding/decoding:
         * Added `bit_length_manual()` function for missing bit_length() method
         * Implemented `int_to_bytes_manual()` for missing to_bytes() method

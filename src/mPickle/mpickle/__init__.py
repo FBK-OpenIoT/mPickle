@@ -33,16 +33,26 @@ from .mpickle import (PickleError,
                      dump,
                      dumps,
                      load,
-                     loads
+                     loads,
+                     register_pickle,
+                     inject_dummy_module_func,
+                     revert_dummy_module_func
                      )
 
 
-__all__ = ["PickleError", 
-           "PicklingError", 
-           "UnpicklingError", 
+__all__ = ["PickleError",
+           "PicklingError",
+           "UnpicklingError",
            "Pickler",
-           "Unpickler", 
-           "dump", 
+           "Unpickler",
+           "dump",
            "dumps",
            "load",
-           "loads"]
+           "loads",
+           "register_pickle",
+           "inject_dummy_module_func",
+           "revert_dummy_module_func",
+           "__version__"]
+
+# Version information
+__version__ = "0.2.0"
