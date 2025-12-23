@@ -60,7 +60,8 @@ This guide provides documentation for the mPickle vs JSON benchmarking suite. Th
 benchmarks/
 ├── run_benchmark.py          # Main benchmark script
 ├── plot_results.py           # Visualization script
-└── README.md                 # This documentation
+├── README.md                 # This documentation
+└── outputs_1000/             # Contains the results reported in the manuscript
 ```
 
 ## Quick Start
