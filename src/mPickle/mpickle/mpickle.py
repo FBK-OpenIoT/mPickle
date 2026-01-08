@@ -43,7 +43,7 @@ Classes and Functions:
     - Pickler
     - Unpickler
     - dump(object, file)
-    - dumps(object) -> string
+    - dumps(object) -> bytes
     - load(file) -> object
     - loads(bytes) -> object
     - register_pickle
@@ -56,6 +56,12 @@ Variables:
     compatible_formats
 
 Changelog:
+    v0.2.1 (2026-01-08):
+    - Update _Pickler.__init__ docstring default protocol mismatch
+    - Removed typo from _register_pickle docstring
+    - Fixed typo in top-level docstring return type for dumps
+
+
     v0.2.0 (2025-12-23):
     - Fixed critical MicroPython compatibility issues with integer encoding/decoding:
         * Added `bit_length_manual()` function for missing bit_length() method
@@ -302,7 +308,7 @@ def register_pickle(obj_type = None,
     This function allows developers to extend mpickle's functionality by registering custom
     serialization (`reduce_func`) and deserialization (`reconstruct_func`) functions for
     different object types. It is particularly useful for handling complex or non-standard
-    objects that require special handling during pickling and unpickling, given al the limited 
+    objects that require special handling during pickling and unpickling, given the limited 
     subset of functionality offered by MicroPython.
     
     Parameters:
@@ -976,8 +982,9 @@ class _Pickler:
 
         The optional *protocol* argument tells the pickler to use the
         given protocol; supported protocols are 0, 1, 2, 3, 4 and 5.
-        The default protocol is 5. It was introduced in Python 3.8, and
-        is incompatible with previous versions.
+        In mPickle, the default protocol is 4. Protocol 5 is not 
+        supported yet. Protocol 5 was introduced in Python 3.8 (CPython)
+        and is incompatible with previous versions.
 
         Specifying a negative protocol version selects the highest
         protocol version supported.  The higher the protocol used, the
