@@ -42,13 +42,13 @@ Pickles an object to a file.
 
 **Signature:**
 ```python
-dump(obj, file, protocol=None, fix_imports=True)
+dump(obj, file, protocol=None, *, fix_imports=True)
 ```
 
 **Parameters:**
 - `obj`: The object to be pickled.
 - `file`: A file-like object with a `write()` method where the pickled data will be written.
-- `protocol`: The protocol version to use for pickling. If `None`, the highest protocol version will be used.
+- `protocol`: The protocol version to use for pickling. If `None`, the default protocol (4) will be used.
 - `fix_imports`: If `True`, pickle will try to map the new Python 3 names to the old module names used in Python 2.
 
 **Example:**
@@ -66,12 +66,12 @@ Pickles an object to a bytes object.
 
 **Signature:**
 ```python
-dumps(obj, protocol=None, fix_imports=True)
+dumps(obj, protocol=None, *, fix_imports=True)
 ```
 
 **Parameters:**
 - `obj`: The object to be pickled.
-- `protocol`: The protocol version to use for pickling. If `None`, the highest protocol version will be used.
+- `protocol`: The protocol version to use for pickling. If `None`, the default protocol (4) will be used.
 - `fix_imports`: If `True`, pickle will try to map the new Python 3 names to the old module names used in Python 2.
 
 **Returns:**
@@ -93,7 +93,7 @@ Unpickles an object from a file.
 
 **Signature:**
 ```python
-load(file, fix_imports=True, encoding="ASCII", errors="strict")
+load(file, *, fix_imports=True, encoding="ASCII", errors="strict")
 ```
 
 **Parameters:**
@@ -121,7 +121,7 @@ Unpickles an object from a bytes object.
 
 **Signature:**
 ```python
-loads(data, fix_imports=True, encoding="ASCII", errors="strict")
+loads(data, *, fix_imports=True, encoding="ASCII", errors="strict")
 ```
 
 **Parameters:**
