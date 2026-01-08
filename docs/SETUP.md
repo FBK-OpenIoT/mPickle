@@ -10,7 +10,7 @@ To get started with mPickle, you have two options:
 An alternative way to deploy mPickle is to use `mpr`, which allows you to upload the mPickle code directly to your board without modifying the firmware.
 
 ### Prerequisites
-1. **Install Python**: Make sure Python> 3.9 is installed on your system.
+1. **Install Python**: Make sure Python >= 3.9 is installed on your system.
 2. **Install mpremote**: Install `mpr` and `mpremote` using `pip`:
    ```sh
    pip install mpr mpremote
@@ -64,9 +64,9 @@ An alternative way to deploy mPickle is to use `mpr`, which allows you to upload
    and it should print the version of the `mPickle` library.
 
 ## Build firmware with the mPickle module frozen (embedded)
-This repository includes a set of compilation scripts located in `firmware/dev-scripts`, to build a custom MicroPython firmware with mPickle as a frozen module, along with (ulab)[https://github.com/v923z/micropython-ulab]. 
+This repository includes a set of compilation scripts located in `firmware/dev-scripts`, to build a custom MicroPython firmware with mPickle as a frozen module, along with [ulab](https://github.com/v923z/micropython-ulab). 
 These scripts support firmware compilation for ESP32 (and its variants) as well as UNIX.
-For detailed compilation steps, refer to (this guide)[/firmware/dev-scripts/README.md].
+For detailed compilation steps, refer to [this guide](/firmware/dev-scripts/README.md).
 
 Once the MicroPython has been compile, and eventually flashed, it is possible to check if everything is working by connecting to the MicroPython REPL and running:
 ```python
